@@ -1,0 +1,34 @@
+name: 盘中监控
+
+on:
+  # 工作日 9:25-11:30, 13:00-15:00, 每 30 分钟
+  schedule:
+    - cron: '25,55 9-11 * * 1-5'
+    - cron: '25,55 13-14 * * 1-5'
+  # 允许手动触发
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: 📥 拉取代码
+        uses: actions/checkout@v4
+
+      - name: 🐍 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 🔍 盘中监控
+        env:
+          DINGDING_WEBHOOK_URL: ${{ secrets.DINGDING_WEBHOOK_URL }}
+          DINGDING_SECRET: ${{ secrets.DINGDING_SECRET }}
+          TZ: Asia/Shanghai
+        run: |
+          python3 scripts/intraday_monitor.py
