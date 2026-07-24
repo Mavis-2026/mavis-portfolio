@@ -1,0 +1,32 @@
+name: 每日复盘
+on:
+  schedule:
+    - cron: '0 8 * * 1-5'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  daily-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: 📊 生成每日复盘
+        env:
+          DINGDING_WEBHOOK_URL: ${{ secrets.DINGDING_WEBHOOK_URL }}
+          DINGDING_SECRET: ${{ secrets.DINGDING_SECRET }}
+          TZ: Asia/Shanghai
+        run: |
+          python3 scripts/daily_review.py
+      - name: 📤 提交报告
+        run: |
+          git config --local user.email "Mavis-bot@mavis.com"
+          git config --local user.name "Mavis Bot"
+          git add reports/ alerts/ 2>/dev/null || true
+          git diff --quiet HEAD -- reports/ alerts/ 2>/dev/null && echo "no changes" || git commit -m "📊 每日复盘 $(date +%Y-%m-%d)"
+          git push

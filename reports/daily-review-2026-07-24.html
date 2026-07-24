@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日复盘 - 2026-07-24</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #0a0e1a;
+    color: #e5e7eb;
+    padding: 16px;
+    line-height: 1.6;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+.header h1 { font-size: 22px; margin-bottom: 4px; }
+.header .date { color: #93c5fd; font-size: 13px; }
+.data-source { font-size: 11px; color: #6ee7b7; margin-top: 4px; }
+.section {
+    background: #1f2937;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 14px;
+    border: 1px solid #374151;
+}
+.section h2 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: #60a5fa;
+    border-bottom: 1px solid #374151;
+    padding-bottom: 8px;
+}
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+.metric-card {
+    background: #111827;
+    border-radius: 8px;
+    padding: 12px;
+    border-left: 3px solid #3b82f6;
+}
+.metric-label { font-size: 12px; color: #9ca3af; margin-bottom: 4px; }
+.metric-value { font-size: 18px; font-weight: 600; }
+.metric-sub { font-size: 11px; color: #9ca3af; margin-top: 2px; }
+.profit-positive { color: #10b981; }
+.profit-negative { color: #ef4444; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; padding: 8px 6px; color: #9ca3af; font-weight: 500; font-size: 12px; border-bottom: 1px solid #374151; }
+td { padding: 10px 6px; border-bottom: 1px solid #1f2937; }
+.num { text-align: right; font-family: "SF Mono", Consolas, monospace; }
+.stock-name { font-weight: 600; font-size: 13px; }
+.stock-code { color: #9ca3af; font-size: 11px; }
+.badge { display: inline-block; background: #3b82f6; color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 4px; }
+.badge.core { background: #dc2626; }
+.alert-item {
+    background: linear-gradient(90deg, #7c2d12 0%, #991b1b 100%);
+    border-left: 4px solid #f59e0b;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+.alert-level { font-size: 16px; margin-right: 6px; }
+.no-alert {
+    background: #064e3b;
+    color: #6ee7b7;
+    padding: 12px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 13px;
+}
+.steps-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.step { background: #111827; border-radius: 8px; padding: 12px; text-align: center; border-top: 3px solid #10b981; }
+.step-pct { font-size: 18px; font-weight: 700; color: #10b981; }
+.step-price { font-size: 14px; color: #e5e7eb; margin: 4px 0; }
+.step-label { font-size: 11px; color: #9ca3af; }
+.step-action { font-size: 12px; color: #fbbf24; margin-top: 6px; font-weight: 600; }
+.insight { background: #1e293b; border-left: 3px solid #8b5cf6; padding: 12px; border-radius: 6px; font-size: 13px; color: #c7d2fe; }
+.alert-box { background: linear-gradient(90deg, #1e3a8a 0%, #312e81 100%); border-left: 4px solid #3b82f6; padding: 12px; border-radius: 6px; font-size: 13px; margin-top: 10px; }
+.footer { text-align: center; color: #6b7280; font-size: 11px; margin-top: 20px; padding: 10px; }
+@media (max-width: 600px) {
+    .summary-grid { grid-template-columns: 1fr; }
+    .steps-container { grid-template-columns: 1fr; }
+    body { padding: 8px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>📊 每日复盘报告</h1>
+    <div class="date">2026-07-24 | 策略:中线趋势持有至年底 | 主仓:半导体设备ETF</div>
+    <div class="data-source">📡 数据源:新浪财经 API(实时) | 板块代理:科创芯片ETF 588200</div>
+</div>
+
+<div class="section">
+    <h2>🚨 关键位提醒</h2>
+    <div class="no-alert">✅ 当前无关键位提醒,继续持有观望</div>
+</div>
+
+<div class="section">
+    <h2>💰 持仓全景</h2>
+    <div class="summary-grid">
+        <div class="metric-card">
+            <div class="metric-label">总市值</div>
+            <div class="metric-value">¥284,426</div>
+            <div class="metric-sub">成本 ¥270,972</div>
+        </div>
+        <div class="metric-card" style="border-left-color: #10b981;">
+            <div class="metric-label">总盈亏</div>
+            <div class="metric-value profit-positive">+13,454 (+4.97%)</div>
+            <div class="metric-sub">含未实现浮动盈亏</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">半导体暴露度</div>
+            <div class="metric-value">47.5%</div>
+            <div class="metric-sub">主战略: 半导体设备Q4主升</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">主仓距止损</div>
+            <div class="metric-value" style="color: #fbbf24;">14.5%</div>
+            <div class="metric-sub">止损 0.648 | 距回本 -14.0%</div>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>🔬 半导体板块对比(主仓 vs 板块代理)</h2>
+    <div class="summary-grid">
+        <div class="metric-card">
+            <div class="metric-label">主仓(159516 半导体设备)</div>
+            <div class="metric-value" style="color: #10b981;">+5.28%</div>
+            <div class="metric-sub">现价 0.758</div>
+        </div>
+        
+        <div class="metric-card">
+            <div class="metric-label">半导体板块代理(588200)</div>
+            <div class="metric-value" style="color: #10b981;">+3.04%</div>
+            <div class="metric-sub">现价 1.290</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">主仓超额(alpha)</div>
+            <div class="metric-value" style="color: #10b981;">+2.24%</div>
+            <div class="metric-sub">主仓-板块基准</div>
+        </div>
+        
+    </div>
+    <div class="alert-box" style="margin-top: 12px;">
+        <strong>💡 解读:</strong> 主仓跑赢/跑输板块 2.24 个百分点。
+        ✨ 主仓表现强于板块,说明你选的ETF不错
+    </div>
+</div>
+
+<div class="section">
+    <h2>📈 大盘指数</h2>
+    <div class="summary-grid">
+        <div class="metric-card"><div class="metric-label">上证指数</div><div class="metric-value">3848.23</div></div>
+        <div class="metric-card"><div class="metric-label">深证成指</div><div class="metric-value">13983.13</div></div>
+        <div class="metric-card"><div class="metric-label">创业板指</div><div class="metric-value">3547.56</div></div>
+        <div class="metric-card"><div class="metric-label">科创50</div><div class="metric-value">1828.68</div></div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>📈 持仓明细</h2>
+    <table>
+        <thead><tr>
+            <th>名称</th><th class="num">现价</th><th class="num">当日</th><th class="num">份额</th>
+            <th class="num">市值</th><th class="num">占比</th><th class="num">盈亏</th><th class="num">盈亏%</th><th class="num">止损价</th>
+        </tr></thead>
+        <tbody>
+        <tr>
+            <td><div class="stock-name">创业板ETF易方达 </div><div class="stock-code">sz159915</div></td>
+            <td class="num">3.571</td>
+            <td class="num" style="color: #ef4444;">-0.72%</td>
+            <td class="num">26,000</td>
+            <td class="num">92,846</td>
+            <td class="num">32.6%</td>
+            <td class="num" style="color: #10b981;">+26,494</td>
+            <td class="num" style="color: #10b981;">+39.93%</td>
+            <td class="num">1.914</td>
+        </tr>
+        
+        <tr>
+            <td><div class="stock-name">科创芯片ETF嘉实 </div><div class="stock-code">sh588200</div></td>
+            <td class="num">1.290</td>
+            <td class="num" style="color: #10b981;">+3.04%</td>
+            <td class="num">40,000</td>
+            <td class="num">51,600</td>
+            <td class="num">18.1%</td>
+            <td class="num" style="color: #10b981;">+7,120</td>
+            <td class="num" style="color: #10b981;">+16.01%</td>
+            <td class="num">0.834</td>
+        </tr>
+        
+        <tr>
+            <td><div class="stock-name">有色金属ETF华夏 </div><div class="stock-code">sh516650</div></td>
+            <td class="num">1.700</td>
+            <td class="num" style="color: #ef4444;">-4.39%</td>
+            <td class="num">20,000</td>
+            <td class="num">34,000</td>
+            <td class="num">12.0%</td>
+            <td class="num" style="color: #ef4444;">-1,660</td>
+            <td class="num" style="color: #ef4444;">-4.66%</td>
+            <td class="num">1.337</td>
+        </tr>
+        
+        <tr>
+            <td><div class="stock-name">恒生科技ETF汇添富 </div><div class="stock-code">sh513260</div></td>
+            <td class="num">1.130</td>
+            <td class="num" style="color: #ef4444;">-1.22%</td>
+            <td class="num">20,000</td>
+            <td class="num">22,600</td>
+            <td class="num">7.9%</td>
+            <td class="num" style="color: #ef4444;">-6,840</td>
+            <td class="num" style="color: #ef4444;">-23.23%</td>
+            <td class="num">1.104</td>
+        </tr>
+        
+        <tr>
+            <td><div class="stock-name">半导体设备ETF国泰 <span class="badge core">主仓</span></div><div class="stock-code">sz159516</div></td>
+            <td class="num">0.758</td>
+            <td class="num" style="color: #10b981;">+5.28%</td>
+            <td class="num">110,000</td>
+            <td class="num">83,380</td>
+            <td class="num">29.3%</td>
+            <td class="num" style="color: #ef4444;">-11,660</td>
+            <td class="num" style="color: #ef4444;">-12.27%</td>
+            <td class="num">0.648</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="section">
+    <h2>🎯 主仓阶梯式止盈计划</h2>
+    <div class="steps-container"><div class="step"><div class="step-pct">+0%</div><div class="step-price">0.864</div><div class="step-label">回本</div><div class="step-action">减仓20%</div></div><div class="step"><div class="step-pct">+30%</div><div class="step-price">1.123</div><div class="step-label">涨30%</div><div class="step-action">减仓40%</div></div><div class="step"><div class="step-pct">+50%</div><div class="step-price">1.296</div><div class="step-label">涨50%</div><div class="step-action">减仓60%</div></div></div>
+    <div class="alert-box">
+        ⚠️ 当前价 0.758 | 距回本还差 -14.0% | 阶梯式止盈只在突破关键位时执行
+    </div>
+</div>
+
+<div class="section">
+    <h2>🧭 主仓操作建议</h2>
+    <div class="insight">
+        <strong>核心逻辑:</strong> 半导体设备8月震荡,9月向上,拿到年底等Q4主升。<br>
+        <strong>当前状态:</strong> 主仓套牢中,但逻辑未破,继续持有。<br>
+        <strong>操作建议:</strong> 8月中报季前不动;急跌到 0.65-0.68 区间可分批加仓;中报兑现后再评估。<br>
+        <strong>心理建设:</strong> 别看成本,看当前价做决策;每天最多看1次,周末再看。
+    </div>
+</div>
+
+<div class="footer">
+    报告生成时间: 2026-07-24 16:00 | 数据源:新浪财经 API | 下次生成: 明日16:00 | 仅供个人复盘参考,不构成投资建议
+</div>
+
+</body>
+</html>
