@@ -6,6 +6,7 @@
 - 统一接口,被其他脚本调用
 """
 import json
+import os
 import time
 import hmac
 import hashlib
