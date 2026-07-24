@@ -30,8 +30,30 @@ CONFIG_FILE = _find_config_file()
 
 
 def load_config():
-    with open(CONFIG_FILE, "r", encoding="utf-8") as f:
-        return json.load(f)
+    """
+    加载配置,优先级:
+    1. 环境变量(用于 GitHub Actions / 容器环境)
+    2. 本地配置文件(用于开发环境)
+    """
+    # 优先从环境变量读
+    env_webhook = os.environ.get("DINGDING_WEBHOOK_URL")
+    env_secret = os.environ.get("DINGDING_SECRET")
+    
+    if env_webhook and env_secret:
+        return {
+            "platform": "dingding",
+            "webhook_url": env_webhook,
+            "secret": env_secret,
+            "security_mode": "sign",
+            "enabled": True
+        }
+    
+    # fallback 到本地文件
+    if CONFIG_FILE.exists():
+        with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    
+    raise RuntimeError("未找到钉钉配置:既无环境变量,也无本地配置文件")
 
 
 def calc_sign(secret):
