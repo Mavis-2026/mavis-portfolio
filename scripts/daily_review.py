@@ -580,10 +580,19 @@ def main():
         print("✅ 无关键位提醒")
 
     # 9. 推送到钉钉
+    # 诊断信息:确认环境变量已注入
+    import os
+    webhook_env = os.environ.get("DINGDING_WEBHOOK_URL", "")
+    secret_env = os.environ.get("DINGDING_SECRET", "")
+    print(f"🔍 诊断: DINGDING_WEBHOOK_URL 长度={len(webhook_env)}, DINGDING_SECRET 长度={len(secret_env)}")
+    if not webhook_env or not secret_env:
+        print("⚠️ 警告:环境变量未注入!钉钉推送可能失败")
     try:
         push_daily_report_to_dingding(positions, index_data, semi_benchmark_data, alerts, total_mv, target_date)
     except Exception as e:
         print(f"⚠️ 钉钉推送失败: {e}")
+        import traceback
+        traceback.print_exc()
 
     return html_path, md_path
 
