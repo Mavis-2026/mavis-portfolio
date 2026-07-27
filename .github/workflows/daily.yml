@@ -1,7 +1,10 @@
 name: 每日复盘
 on:
   schedule:
-    - cron: '0 8 * * 1-5'
+    # 改为 UTC 0:30 / 1:00(北京 8:30 / 9:00)= 开盘前,错峰且不依赖收盘后立即计算
+    # 选择 1:00 是错开 GitHub 高峰期(UTC 6-15),更稳定
+    # 报告内容:上一个交易日收盘数据
+    - cron: '0 1 * * 1-5'   # 北京时间 9:00(开盘前 25 分钟)
   workflow_dispatch:
 permissions:
   contents: read
@@ -14,7 +17,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: 📊 生成每日复盘
+      - name: 📊 生成每日复盘(昨日数据)
         env:
           DINGDING_WEBHOOK_URL: ${{ secrets.DINGDING_WEBHOOK_URL }}
           DINGDING_SECRET: ${{ secrets.DINGDING_SECRET }}
