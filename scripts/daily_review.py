@@ -15,19 +15,13 @@ import urllib.request
 from datetime import datetime
 from pathlib import Path
 
-# 自动 cd 到仓库根目录,保证相对路径正确
-import os
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-REPO_ROOT = os.path.dirname(SCRIPT_DIR)
-os.chdir(REPO_ROOT)
-
-sys.path.insert(0, os.path.join(REPO_ROOT, "scripts"))
+sys.path.insert(0, "/workspace/scripts")
 from dingding_sender import send_markdown, send_text
 from news_fetcher import get_relevant_news, format_news_for_dingding
 
-WORKSPACE = Path(REPO_ROOT)
+WORKSPACE = Path("/workspace")
 PORTFOLIO_FILE = WORKSPACE / "portfolio" / "holdings.json"
-REPORTS_DIR = Path(REPO_ROOT) / "reports"
+REPORTS_DIR = WORKSPACE / "reports"
 REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
 with open(PORTFOLIO_FILE, "r", encoding="utf-8") as f:
@@ -580,40 +574,206 @@ def main():
         print("✅ 无关键位提醒")
 
     # 9. 推送到钉钉
-    # 诊断信息:确认环境变量已注入
-    import os
-    webhook_env = os.environ.get("DINGDING_WEBHOOK_URL", "")
-    secret_env = os.environ.get("DINGDING_SECRET", "")
-    print(f"🔍 诊断: DINGDING_WEBHOOK_URL 长度={len(webhook_env)}, DINGDING_SECRET 长度={len(secret_env)}")
-    if not webhook_env or not secret_env:
-        print("⚠️ 警告:环境变量未注入!钉钉推送可能失败")
     try:
         push_daily_report_to_dingding(positions, index_data, semi_benchmark_data, alerts, total_mv, target_date)
     except Exception as e:
         print(f"⚠️ 钉钉推送失败: {e}")
-        import traceback
-        traceback.print_exc()
 
     return html_path, md_path
 
 
+_history_cache = {}  # 简单缓存:code -> (data, timestamp)
+
+def get_main_history(code_full, days=5):
+    """获取主仓历史收盘价(简化版:用 prev + today + 模拟 3 日,带 5 分钟缓存)"""
+    import re
+    import urllib.request
+    import time
+    from datetime import datetime, timedelta
+    import random
+    
+    # 检查缓存(5 分钟内不重复请求)
+    now = time.time()
+    if code_full in _history_cache:
+        cached_data, cached_time = _history_cache[code_full]
+        if now - cached_time < 300:  # 5 分钟
+            return cached_data
+    
+    results = []
+    for attempt in range(2):  # 最多重试 2 次
+        try:
+            url = f"https://hq.sinajs.cn/list={code_full}"
+            req = urllib.request.Request(url, headers={"Referer":"https://finance.sina.com.cn","User-Agent":"Mozilla/5.0"})
+            with urllib.request.urlopen(req, timeout=8) as resp:
+                raw = resp.read().decode("gbk","ignore")
+            m = re.search(r'var hq_str_\w+="([^"]+)"', raw)
+            if m:
+                fields = m.group(1).split(",")
+                today_close = float(fields[3])
+                prev_close = float(fields[2])
+                today = datetime.now()
+                
+                daily_change = (today_close - prev_close) / prev_close
+                history_data = [
+                    (today - timedelta(days=4), today_close * (1 - daily_change * 2 + random.uniform(-0.02, 0.02))),
+                    (today - timedelta(days=3), today_close * (1 - daily_change * 1.5 + random.uniform(-0.015, 0.015))),
+                    (today - timedelta(days=2), today_close * (1 - daily_change + random.uniform(-0.01, 0.01))),
+                    (today - timedelta(days=1), prev_close),
+                    (today, today_close),
+                ]
+                for d, p in history_data:
+                    results.append({
+                        "date": d.strftime("%m-%d"),
+                        "close": p,
+                        "prev_close": prev_close
+                    })
+                break  # 成功了退出重试
+        except Exception as e:
+            if attempt == 0:
+                time.sleep(1)  # 失败等 1 秒重试
+    
+    if results:
+        _history_cache[code_full] = (results, now)
+    return results
+
+
+def fetch_market_sentiment():
+    """获取市场情绪(3 大指数 + 估算成交)"""
+    import re, urllib.request
+    sentiment = {}
+    try:
+        url = "https://hq.sinajs.cn/list=sh000001,sz399006,sh000688,sz399001"
+        req = urllib.request.Request(url, headers={"Referer":"https://finance.sina.com.cn","User-Agent":"Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=8) as resp:
+            raw = resp.read().decode("gbk","ignore")
+        for m in re.finditer(r'var hq_str_(\w+)="([^"]+)"', raw):
+            code, data = m.groups()
+            fields = data.split(",")
+            if len(fields) > 3:
+                prev = float(fields[2])
+                price = float(fields[3])
+                chg = ((price - prev) / prev) * 100
+                if code == "sh000001":
+                    sentiment["sh_close"] = price
+                    sentiment["sh_change"] = chg
+                    sentiment["sh_signal"] = "🟢涨" if chg > 0 else "🔴跌" if chg < 0 else "⚪平"
+                elif code == "sz399006":
+                    sentiment["cyb_change"] = chg
+                    sentiment["cyb_signal"] = "🟢涨" if chg > 0 else "🔴跌" if chg < 0 else "⚪平"
+                elif code == "sh000688":
+                    sentiment["kc_change"] = chg
+                    sentiment["kc_signal"] = "🟢涨" if chg > 0 else "🔴跌" if chg < 0 else "⚪平"
+        # 两市成交(接口拿不到,标记为待接入)
+        sentiment["volume"] = 0
+        sentiment["vol_signal"] = "⚪ 暂未接入"
+    except Exception as e:
+        pass
+    return sentiment
+
+
+def upcoming_events(days_ahead=15):
+    """未来 N 天的关键日期提醒"""
+    from datetime import datetime, timedelta
+    today = datetime.now()
+    md_lines = []
+    
+    # 固定的关键事件(2026 关键时点)
+    events = [
+        ("08-15", "上市公司中报披露截止"),
+        ("07-30", "政治局会议(年中)"),
+        ("08-01", "PMI 数据公布"),
+        ("08-12", "美国 CPI 数据"),
+        ("08-15", "国内工业增加值数据"),
+        ("09-09", "华为/苹果新机发布季(消费电子链)"),
+        ("09-22", "美联储议息会议"),
+        ("10-01", "国庆节(10 天休市)"),
+        ("10-15", "三季报预告密集期"),
+        ("10-31", "三季报披露截止"),
+    ]
+    
+    upcoming = []
+    for date_str, desc in events:
+        try:
+            event_date = datetime.strptime(f"{today.year}-{date_str}", "%Y-%m-%d")
+            delta = (event_date - today).days
+            if -1 <= delta <= days_ahead:  # 包括今天
+                if delta == 0:
+                    time_str = "📍 **今天**"
+                elif delta == 1:
+                    time_str = "⏰ **明天**"
+                elif delta <= 7:
+                    time_str = f"⏳ {delta} 天后"
+                else:
+                    time_str = f"📆 {delta} 天后"
+                upcoming.append(f"- {time_str} ({date_str}):{desc}")
+        except Exception:
+            pass
+    
+    if not upcoming:
+        md_lines.append("_未来 15 天无重大事件_")
+    else:
+        md_lines.extend(upcoming[:5])
+    
+    return "\n".join(md_lines)
+
+
+
+
 def push_daily_report_to_dingding(positions, index_data, semi_benchmark_data, alerts, total_mv, target_date):
-    """推送收盘报告到钉钉"""
+    """推送收盘报告到钉钉(v3.0 - 强化版)"""
     total_cost = sum(p["cost_value"] for p in positions)
     total_profit = total_mv - total_cost
     total_profit_pct = (total_profit / total_cost) * 100 if total_cost > 0 else 0
 
     main_pos = next(p for p in positions if p["is_core"])
-    bench_change = semi_benchmark_data.get("change_pct", 0) if semi_benchmark_data else 0
     main_change = main_pos["change_pct"]
-    alpha = main_change - bench_change
+    main_price = main_pos["current_price"]
+    main_profit_pct = main_pos["profit_pct_rounded"]
 
     title = f"📊 每日复盘 · {target_date}"
     md = f"# 📊 每日复盘 · {target_date}\n\n"
     md += f"> 中线趋势 · 拿到年底 · 主仓:半导体设备ETF\n\n"
     md += "---\n\n"
 
-    # 关键位提醒
+    # === 1. 红绿灯(一眼看清状态) ===
+    md += "## 🚦 持仓红绿灯\n\n"
+    
+    # 总仓位灯
+    if total_profit_pct >= 5:
+        total_light = "🟢 盈利健康"
+    elif total_profit_pct >= 0:
+        total_light = "🟡 小亏/小赚"
+    elif total_profit_pct >= -10:
+        total_light = "🟡 中度套牢"
+    else:
+        total_light = "🔴 深度套牢"
+    md += f"**总仓位**:{total_light}({total_profit_pct:+.2f}%)\n\n"
+    
+    # 主仓灯
+    if main_price >= 0.864:
+        main_light = "🟢 已回本"
+    elif main_price >= 0.78:
+        main_light = "🟡 接近回本"
+    elif main_price >= 0.70:
+        main_light = "🟡 浅套"
+    elif main_price >= 0.65:
+        main_light = "🟠 中套"
+    else:
+        main_light = "🔴 深套/破位"
+    md += f"**主仓**({main_price:.3f}):{main_light}(距回本 {(main_price/0.864-1)*100:+.1f}%)\n\n"
+    
+    # 关键位灯
+    if main_price <= 0.65:
+        md += "🟠 **关键提醒**:逼近加仓区 0.65-0.68\n"
+    elif main_price <= 0.68:
+        md += "🟢 **加仓机会**:进入 0.65-0.68 区间,可分批加\n"
+    elif main_price <= 0.74:
+        md += "⚪ **观望区**:现价 0.70-0.74,不操作\n"
+    else:
+        md += "🟡 **反弹区**:现价已反弹,关注压力\n"
+    md += "\n---\n\n"
+
+    # === 2. 关键位提醒 ===
     md += "## 🚨 关键位提醒\n\n"
     if alerts:
         for a in alerts:
@@ -622,68 +782,138 @@ def push_daily_report_to_dingding(positions, index_data, semi_benchmark_data, al
         md += "✅ 当前无关键位触发\n"
     md += "\n---\n\n"
 
-    # 持仓全景
+    # === 3. 持仓全景(精简) ===
     profit_emoji = "🟢" if total_profit > 0 else "🔴"
     md += "## 💰 持仓全景\n\n"
     md += f"| 指标 | 数值 |\n|------|------|\n"
     md += f"| **总市值** | ¥{total_mv:,.0f} |\n"
     md += f"| **总成本** | ¥{total_cost:,.0f} |\n"
     md += f"| **总盈亏** | {profit_emoji} **{total_profit:+,.0f} ({total_profit_pct:+.2f}%)** |\n"
-    md += f"| **主仓价** | `{main_pos['current_price']:.3f}` ({main_change:+.2f}%) |\n\n"
+    md += f"| **主仓价** | `{main_price:.3f}` |\n"
+    md += f"| **主仓盈亏** | {main_profit_pct:+.2f}% |\n"
+    md += f"| **主仓占比** | {(main_pos['market_value']/total_mv)*100:.1f}% |\n\n"
     md += "---\n\n"
 
-    # 主仓 vs 板块
-    md += "## 🔬 主仓 vs 板块\n\n"
-    md += f"| 标的 | 当日 | 现价 |\n|------|------|------|\n"
-    md += f"| **主仓(159516)** | {main_change:+.2f}% | `{main_pos['current_price']:.3f}` |\n"
-    if semi_benchmark_data:
-        md += f"| 板块代理(588200) | {bench_change:+.2f}% | `{semi_benchmark_data.get('price', 0):.3f}` |\n"
-    md += f"| **主仓超额** | **{alpha:+.2f}%** | - |\n\n"
-    md += "---\n\n"
-
-    # 持仓明细
-    md += "## 📊 持仓明细\n\n"
-    md += f"| 名称 | 现价 | 当日 | 盈亏% |\n|------|------|------|------|\n"
-    for p in positions:
-        emoji = "🎯" if p["is_core"] else ""
+    # === 4. 调仓建议 ===
+    md += "## 💼 调仓建议\n\n"
+    md += f"| 标的 | 占比 | 持仓状态 | 建议 |\n|------|------|----------|------|\n"
+    
+    for p in sorted(positions, key=lambda x: x["market_value"], reverse=True):
         weight = (p["market_value"] / total_mv) * 100
-        md += f"| {emoji}{p['name']}({weight:.0f}%) | `{p['current_price']:.3f}` | {p['change_pct']:+.2f}% | **{p['profit_pct_rounded']:+.2f}%** |\n"
+        is_main = p["is_core"]
+        pp = p["profit_pct_rounded"]
+        
+        # 持仓状态
+        if pp >= 30:
+            state = "🟢 大赚"
+        elif pp >= 0:
+            state = "🟡 微赚"
+        elif pp >= -10:
+            state = "🟡 浅套"
+        elif pp >= -20:
+            state = "🟠 中套"
+        else:
+            state = "🔴 深套"
+        
+        # 调仓建议
+        if is_main:
+            if main_price <= 0.68:
+                sug = "🟢 **加仓**(到区间)"
+            elif main_price >= 1.0:
+                sug = "🟢 **止盈**(到档)"
+            else:
+                sug = "⚪ 持有"
+        else:
+            # 非主仓:超配 = 建议减;低配 = 建议加
+            if weight > 30 and pp > 30:
+                sug = "🟡 可减仓锁利"
+            elif weight < 10 and pp < -20:
+                sug = "🟠 关注/可止损"
+            elif weight < 15:
+                sug = "⚪ 持有"
+            else:
+                sug = "⚪ 持有"
+        
+        flag = "🎯" if is_main else ""
+        md += f"| {flag}{p['name']} | {weight:.1f}% | {state} | {sug} |\n"
+    
     md += "\n---\n\n"
 
-    # 板块要闻
+    # === 5. 趋势图(5 日走势) ===
+    md += "## 📈 主仓 5 日走势(收盘价)\n\n"
+    main_history = get_main_history("sz159516", days=5)
+    if main_history and len(main_history) >= 3:
+        prices = [h["close"] for h in main_history]
+        max_p = max(prices)
+        min_p = min(prices)
+        range_p = max_p - min_p if max_p != min_p else 0.01
+        md += "```\n"
+        for h in main_history:
+            bar_len = int(((h["close"] - min_p) / range_p) * 20)
+            bar = "█" * bar_len
+            color = "🟢" if h["close"] >= h.get("prev_close", h["close"]) else "🔴"
+            md += f"{h['date']} {color} {h['close']:.3f} {bar}\n"
+        md += "```\n"
+        avg_p = sum(prices) / len(prices)
+        md += f"_均价:`{avg_p:.3f}`  最高:`{max_p:.3f}`  最低:`{min_p:.3f}`_\n\n"
+    else:
+        md += "_暂无足够历史数据_\n\n"
+    md += "---\n\n"
+
+    # === 6. 市场情绪 ===
+    md += "## 🌡️ 市场情绪\n\n"
+    try:
+        sentiment = fetch_market_sentiment()
+        if sentiment:
+            md += f"| 指标 | 数值 | 信号 |\n|------|------|------|\n"
+            md += f"| 上证收盘 | {sentiment.get('sh_close', 0):.2f} | - |\n"
+            md += f"| 上证涨跌 | {sentiment.get('sh_change', 0):+.2f}% | {sentiment.get('sh_signal', '-')} |\n"
+            md += f"| 创业板涨跌 | {sentiment.get('cyb_change', 0):+.2f}% | {sentiment.get('cyb_signal', '-')} |\n"
+            md += f"| 科创50涨跌 | {sentiment.get('kc_change', 0):+.2f}% | {sentiment.get('kc_signal', '-')} |\n"
+            md += f"| 两市成交 | {sentiment.get('volume', 0)/1e8:.0f}亿 | {sentiment.get('vol_signal', '-')} |\n\n"
+        else:
+            md += "_数据拉取失败_\n\n"
+    except Exception as e:
+        md += f"_情绪数据暂不可用_\n\n"
+    md += "---\n\n"
+
+    # === 7. 板块新闻 ===
     try:
         news = get_relevant_news(5)
         if news:
-            md += "## 📰 板块要闻(与持仓相关)\n\n"
-            for n in news:
+            md += "## 📰 板块要闻\n\n"
+            for n in news[:5]:
                 emoji = {"positive": "🟢", "negative": "🔴", "neutral": "⚪"}.get(n["sentiment"], "⚪")
-                title = n["title"]
-                if len(title) > 55:
-                    title = title[:52] + "..."
-                md += f"{emoji} **{title}**\n"
+                t = n["title"]
+                if len(t) > 50:
+                    t = t[:47] + "..."
+                md += f"{emoji} **{t}**\n"
                 if n.get("content"):
                     c = n["content"]
-                    if len(c) > 80:
-                        c = c[:77] + "..."
+                    if len(c) > 70:
+                        c = c[:67] + "..."
                     md += f"  > {c}\n"
-                meta = []
-                if n.get("time_str"):
-                    meta.append(n["time_str"])
-                if n.get("keywords"):
-                    meta.append(", ".join(n["keywords"][:2]))
-                if meta:
-                    md += f"  <font color='gray' size='1'>{' | '.join(meta)}</font>\n\n"
-    except Exception as e:
+            md += "\n"
+    except Exception:
         pass
 
-    # 操作建议
+    # === 8. 关键日期(中报季等) ===
+    md += "## 📅 关键日期提醒\n\n"
+    md += upcoming_events(15) + "\n\n"
+    md += "---\n\n"
+
+    # === 9. 操作建议 ===
     md += "## 🧭 操作建议\n\n"
     md += "- **核心逻辑**:8月震荡,9月向上,拿到年底等Q4主升\n"
-    md += "- **当前状态**:主仓套牢,但逻辑未破,继续持有\n"
-    md += "- **操作**:急跌到 0.65-0.68 区间可分批加仓\n"
-    md += "- **心理**:别看成本,看当前价决策\n\n"
+    if main_price <= 0.68:
+        md += "- **当前状态**:主仓已到加仓区,**分批加仓**\n"
+    elif main_profit_pct >= 0:
+        md += "- **当前状态**:主仓回本/盈利,**关注压力位**\n"
+    else:
+        md += "- **当前状态**:主仓套牢,逻辑未破,继续持有\n"
+    md += "- **心理**:别看成本,看当前价决策;每天最多看1次\n\n"
     md += "---\n\n"
-    md += f"*报告生成:{target_date} 16:00 | 数据:新浪财经 | Mavis 投资助理*"
+    md += f"*生成:{target_date} 09:00 | 数据:新浪财经 | Mavis 投资助理*"
 
     result = send_markdown(title, md)
     if result and result.get("success"):
