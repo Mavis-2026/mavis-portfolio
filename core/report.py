@@ -381,7 +381,8 @@ def render_report_md(
     if agent_data is not None:
         try:
             from core.agent_data import render_agent_data_sections
-            sections.append(render_agent_data_sections(agent_data, fmt="md"))
+            holdings_codes = [p.get("code") for p in positions] if positions else None
+            sections.append(render_agent_data_sections(agent_data, fmt="md", holdings=holdings_codes))
         except Exception as e:
             sections.append(f"\n\n> ⚠️ agent 数据渲染失败: {e}\n")
 
@@ -592,7 +593,8 @@ def render_report_html(
     if agent_data is not None:
         try:
             from core.agent_data import render_agent_data_sections
-            agent_html = render_agent_data_sections(agent_data, fmt="html")
+            holdings_codes = [p.get("code") for p in positions] if positions else None
+            agent_html = render_agent_data_sections(agent_data, fmt="html", holdings=holdings_codes)
         except Exception as e:
             agent_html = f'<div class="section"><h2>⚠️ agent 数据渲染失败</h2><p>{e}</p></div>'
     

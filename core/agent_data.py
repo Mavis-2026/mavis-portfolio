@@ -78,14 +78,17 @@ def _row(value, fmt="{:.3f}", default="—"):
     return str(value)
 
 
-def render_price_vs_ma_md(agent_data: dict) -> str:
+def render_price_vs_ma_md(agent_data: dict, holdings: list = None) -> str:
     data = agent_data.get("price_vs_ma", {})
     if not data:
         return ""
+    holdings_set = set(holdings) if holdings else None
     lines = ["", "## 📊 价格 vs 均价（agent 预拉）", ""]
     lines.append("| 代码 | 名称 | 当前 | MA20 | MA60 | MA120 | 年内位置 | 看多信号 |")
     lines.append("|---|---|---|---|---|---|---|---|")
     for code, row in data.items():
+        if holdings_set and code not in holdings_set:
+            continue
         if "error" in row:
             lines.append(f"| {code} | {row.get('name','')} | ⚠️ 拉取失败 | — | — | — | — | — |")
             continue
@@ -98,12 +101,15 @@ def render_price_vs_ma_md(agent_data: dict) -> str:
     return "\n".join(lines)
 
 
-def render_price_vs_ma_html(agent_data: dict) -> str:
+def render_price_vs_ma_html(agent_data: dict, holdings: list = None) -> str:
     data = agent_data.get("price_vs_ma", {})
     if not data:
         return ""
+    holdings_set = set(holdings) if holdings else None
     rows = []
     for code, row in data.items():
+        if holdings_set and code not in holdings_set:
+            continue
         if "error" in row:
             rows.append(f"<tr><td>{code}</td><td>{row.get('name','')}</td><td colspan='6' style='color:#f59e0b'>⚠️ 拉取失败</td></tr>")
             continue
@@ -135,14 +141,17 @@ def render_price_vs_ma_html(agent_data: dict) -> str:
     </div>"""
 
 
-def render_volume_price_md(agent_data: dict) -> str:
+def render_volume_price_md(agent_data: dict, holdings: list = None) -> str:
     data = agent_data.get("volume_price", {})
     if not data:
         return ""
+    holdings_set = set(holdings) if holdings else None
     lines = ["", "## 📈 量价配合（agent 预拉）", ""]
     lines.append("| 代码 | 名称 | 量比 | 5日价变% | 5日量变% | 5日均换手% | 量价配合 | 信号 |")
     lines.append("|---|---|---|---|---|---|---|---|")
     for code, row in data.items():
+        if holdings_set and code not in holdings_set:
+            continue
         if "error" in row:
             lines.append(f"| {code} | {row.get('name','')} | ⚠️ 失败 | — | — | — | — | — |")
             continue
@@ -153,12 +162,15 @@ def render_volume_price_md(agent_data: dict) -> str:
     return "\n".join(lines)
 
 
-def render_volume_price_html(agent_data: dict) -> str:
+def render_volume_price_html(agent_data: dict, holdings: list = None) -> str:
     data = agent_data.get("volume_price", {})
     if not data:
         return ""
+    holdings_set = set(holdings) if holdings else None
     rows = []
     for code, row in data.items():
+        if holdings_set and code not in holdings_set:
+            continue
         if "error" in row:
             rows.append(f"<tr><td>{code}</td><td>{row.get('name','')}</td><td colspan='6' style='color:#f59e0b'>⚠️ 拉取失败</td></tr>")
             continue
@@ -226,8 +238,8 @@ def render_weibo_html(agent_data: dict) -> str:
     return f'<div class="section"><h2>📱 微博舆情（agent 预拉）</h2>{body}</div>'
 
 
-def render_agent_data_sections(agent_data: dict, fmt="md") -> str:
-    """聚合 4 段，返回字符串"""
+def render_agent_data_sections(agent_data: dict, fmt="md", holdings: list = None) -> str:
+    """聚合 4 段，返回字符串 (holdings: 持仓 code 列表,用于过滤只显示账户持仓)"""
     if not has_agent_data(agent_data):
         if fmt == "md":
             return "\n\n> ⚠️ agent 预拉数据缺失，使用 GitHub 脚本拉（fallback 模式）\n"
@@ -235,13 +247,13 @@ def render_agent_data_sections(agent_data: dict, fmt="md") -> str:
 
     if fmt == "md":
         parts = ["", "## 🆕 agent 预拉数据（增强）", ""]
-        parts.append(render_price_vs_ma_md(agent_data))
-        parts.append(render_volume_price_md(agent_data))
+        parts.append(render_price_vs_ma_md(agent_data, holdings=holdings))
+        parts.append(render_volume_price_md(agent_data, holdings=holdings))
         parts.append(render_weibo_md(agent_data))
         return "\n".join(parts)
     else:
         parts = []
-        parts.append(render_price_vs_ma_html(agent_data))
-        parts.append(render_volume_price_html(agent_data))
+        parts.append(render_price_vs_ma_html(agent_data, holdings=holdings))
+        parts.append(render_volume_price_html(agent_data, holdings=holdings))
         parts.append(render_weibo_html(agent_data))
         return "\n".join(parts)
