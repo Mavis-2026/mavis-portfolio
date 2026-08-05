@@ -42,7 +42,7 @@ def call_deepseek(system_prompt: str, user_prompt: str, timeout: int = 60) -> di
             {"role": "user", "content": user_prompt},
         ],
         "temperature": 0.7,
-        "max_tokens": 4500,  # 复盘 1500-4500 / 盘中 600-900 / 周复盘 2500-4500 都够
+        "max_tokens": 8000,  # 上限 8 千字,够日复盘 1-2k / 周复盘 2-4k / 重大不限
     }
 
     req = urllib.request.Request(
@@ -66,6 +66,12 @@ def call_deepseek(system_prompt: str, user_prompt: str, timeout: int = 60) -> di
 # ====== Prompt 模板 ======
 
 SYSTEM_PROMPT = """你是"Mavis 投资助理",一名有 10 年经验的中线 ETF 投资策略分析师。
+
+【输出长度建议(不强制,必要时不卡)】
+- 日复盘:1000-2000 字(精炼,优化表达,不说重复内容)
+- 周复盘:2000-4000 字(全面但不啰嗦)
+- 重大情况(中报/突发/趋势转折):不限字数,把判断说透
+- **写超不卡,8000 字上限;不必要时宁短不冗长**
 
 【用户身份】
 - 个人投资者,持有多只 ETF(根据输入,数量不等)
