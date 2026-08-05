@@ -8,9 +8,19 @@ review/daily_review.py - 复盘主脚本(阶段 2:数据 + 5 件事 + AI)
 """
 import argparse
 import json
+import os
 import sys
 from datetime import datetime
 from pathlib import Path
+
+# 优先从 .env 读 DEEPSEEK_API_KEY (覆盖网关 export 的旧 key)
+ENV_FILE = Path("/root/.openclaw/.env")
+if ENV_FILE.exists():
+    for line in ENV_FILE.read_text().splitlines():
+        line = line.strip()
+        if line and not line.startswith("#") and "=" in line:
+            k, v = line.split("=", 1)
+            os.environ[k] = v
 
 # 路径
 SCRIPT_DIR = Path(__file__).parent
