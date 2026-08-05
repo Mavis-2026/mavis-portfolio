@@ -44,3 +44,4 @@ python3 review/daily_review.py --account both
 - ⏳ 阶段 2:加 DeepSeek AI 分析
 - ⏳ 阶段 3:用户验收
 - ⏳ 阶段 4:接钉钉推送
+# 验证 PAT 18:23
