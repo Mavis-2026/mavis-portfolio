@@ -1,0 +1,244 @@
+{
+  "user": "Mavis客户",
+  "strategy": "中线趋势,拿到年底",
+  "core_logic": "半导体设备Q4主升浪,8月震荡,9月向上",
+  "created_at": "2026-07-23",
+  "last_updated": "2026-07-28 15:05 (双账户更新)",
+  "data_source": "新浪财经 API(https://hq.sinajs.cn)",
+  "accounts": {
+    "main": {
+      "name": "主账户 (太平洋证券 **8337)",
+      "broker": "太平洋证券",
+      "account_no": "**8337",
+      "holdings": [
+        {
+          "code": "159915",
+          "exchange": "sz",
+          "name": "创业板ETF易方达",
+          "shares": 29000,
+          "cost": 2.65295,
+          "current_price": 3.355,
+          "category": "大盘beta",
+          "stop_loss_pct": -25,
+          "take_profit_plan": "阶梯式止盈不清仓",
+          "stop_loss_price": 1.989,
+          "is_core": false,
+          "notes": "底仓,跟半导体有重合但不全是",
+          "account": "main"
+        },
+        {
+          "code": "588200",
+          "exchange": "sh",
+          "name": "科创芯片ETF嘉实",
+          "shares": 40000,
+          "cost": 1.111807,
+          "current_price": 1.175,
+          "category": "半导体",
+          "stop_loss_pct": -25,
+          "take_profit_plan": "阶梯式止盈不清仓",
+          "stop_loss_price": 0.834,
+          "is_core": false,
+          "notes": "与半导体设备ETF高度重合,卫星仓位",
+          "account": "main"
+        },
+        {
+          "code": "516650",
+          "exchange": "sh",
+          "name": "有色金属ETF华夏",
+          "shares": 20000,
+          "cost": 1.783687,
+          "current_price": 1.693,
+          "category": "对冲",
+          "stop_loss_pct": -25,
+          "take_profit_plan": "阶梯式止盈不清仓",
+          "stop_loss_price": 1.337,
+          "is_core": false,
+          "notes": "对冲配置,12%仓位",
+          "account": "main"
+        },
+        {
+          "code": "513260",
+          "exchange": "sh",
+          "name": "恒生科技ETF汇添富",
+          "shares": 20000,
+          "cost": 1.471961,
+          "current_price": 1.145,
+          "category": "互联网长线",
+          "stop_loss_pct": -25,
+          "take_profit_plan": "已切换为长线底仓,不再纠结成本",
+          "stop_loss_price": 1.104,
+          "is_core": false,
+          "notes": "用户判断流动性恢复,放着等反转,不在报告中操作建议",
+          "account": "main"
+        },
+        {
+          "code": "159516",
+          "exchange": "sz",
+          "name": "半导体设备ETF国泰",
+          "shares": 110000,
+          "cost": 0.863948,
+          "current_price": 0.72,
+          "category": "半导体-主仓",
+          "stop_loss_pct": -25,
+          "take_profit_plan": "阶梯式止盈不清仓(8月:20%/40%/60%分批减)",
+          "stop_loss_price": 0.648,
+          "is_core": true,
+          "notes": "主仓,中线趋势拿到年底,半导体设备Q4主升预期",
+          "account": "main"
+        }
+      ],
+      "summary": {
+        "total_mv": 280255.0,
+        "total_cost": 281528.0,
+        "profit": -1273.0,
+        "profit_pct": -0.4522
+      },
+      "description": "满仓加持,核心配置。5 ETF 全配置(主仓+卫星+对冲+长线)",
+      "available_cash": 4283.15,
+      "total_assets": 285481.15
+    },
+    "sub2": {
+      "name": "副账户 (太平洋证券 **7661)",
+      "broker": "太平洋证券",
+      "account_no": "**7661",
+      "holdings": [
+        {
+          "code": "588200",
+          "exchange": "sh",
+          "name": "科创芯片ETF嘉实",
+          "shares": 12000,
+          "cost": 1.245479,
+          "current_price": 1.077,
+          "category": "半导体",
+          "stop_loss_pct": -25,
+          "stop_loss_price": 0.934,
+          "is_core": false,
+          "notes": "副账户加仓后 12000 股(11:14 加 1000 @ 1.077)",
+          "account": "sub2"
+        },
+        {
+          "code": "159516",
+          "exchange": "sz",
+          "name": "半导体设备ETF国泰",
+          "shares": 10000,
+          "cost": 0.73316,
+          "current_price": 0.655,
+          "category": "半导体-主仓",
+          "stop_loss_pct": -25,
+          "stop_loss_price": 0.549,
+          "is_core": true,
+          "notes": "副账户加仓后 10000 股(11:14 加 2000 @ 0.655),情绪下杀 7% 规则触发",
+          "account": "sub2"
+        }
+      ],
+      "summary": {
+        "total_mv": 19474.0,
+        "total_cost": 22294.0,
+        "profit": -2820.0,
+        "profit_pct": -12.65
+      },
+      "description": "刚建仓,试探期。只配 2 个半导体 ETF(159516 主仓 + 588200 卫星)。2026-07-30 11:14 加仓后",
+      "available_cash": 27732.04,
+      "total_assets": 47206.04
+    }
+  },
+  "holdings": [
+    {
+      "code": "159915",
+      "exchange": "sz",
+      "name": "创业板ETF易方达",
+      "shares": 29000,
+      "cost": 2.652,
+      "current_price": 3.355,
+      "category": "大盘beta",
+      "stop_loss_pct": -25,
+      "take_profit_plan": "阶梯式止盈不清仓",
+      "stop_loss_price": 1.989,
+      "is_core": false,
+      "notes": "底仓,跟半导体有重合但不全是",
+      "account": "main"
+    },
+    {
+      "code": "588200",
+      "exchange": "sh",
+      "name": "科创芯片ETF嘉实",
+      "shares": 40000,
+      "cost": 1.112,
+      "current_price": 1.175,
+      "category": "半导体",
+      "stop_loss_pct": -25,
+      "take_profit_plan": "阶梯式止盈不清仓",
+      "stop_loss_price": 0.834,
+      "is_core": false,
+      "notes": "与半导体设备ETF高度重合,卫星仓位",
+      "account": "main"
+    },
+    {
+      "code": "516650",
+      "exchange": "sh",
+      "name": "有色金属ETF华夏",
+      "shares": 20000,
+      "cost": 1.783,
+      "current_price": 1.693,
+      "category": "对冲",
+      "stop_loss_pct": -25,
+      "take_profit_plan": "阶梯式止盈不清仓",
+      "stop_loss_price": 1.337,
+      "is_core": false,
+      "notes": "对冲配置,12%仓位",
+      "account": "main"
+    },
+    {
+      "code": "513260",
+      "exchange": "sh",
+      "name": "恒生科技ETF汇添富",
+      "shares": 20000,
+      "cost": 1.472,
+      "current_price": 1.145,
+      "category": "互联网长线",
+      "stop_loss_pct": -25,
+      "take_profit_plan": "已切换为长线底仓,不再纠结成本",
+      "stop_loss_price": 1.104,
+      "is_core": false,
+      "notes": "用户判断流动性恢复,放着等反转,不在报告中操作建议",
+      "account": "main"
+    },
+    {
+      "code": "159516",
+      "exchange": "sz",
+      "name": "半导体设备ETF国泰",
+      "shares": 110000,
+      "cost": 0.864,
+      "current_price": 0.72,
+      "category": "半导体-主仓",
+      "stop_loss_pct": -25,
+      "take_profit_plan": "阶梯式止盈不清仓(8月:20%/40%/60%分批减)",
+      "stop_loss_price": 0.648,
+      "is_core": true,
+      "notes": "主仓,中线趋势拿到年底,半导体设备Q4主升预期",
+      "account": "main"
+    }
+  ],
+  "key_levels": {
+    "main_position_stop_loss": "半导体设备ETF 0.648(成本0.864,跌25%)",
+    "main_position_take_profit": "阶梯式:0.864回本先减20%;涨30%(1.123)减40%;涨50%(1.296)减60%",
+    "review_calendar": [
+      "8月15日 中报披露窗口",
+      "8月31日 中报季结束",
+      "9月15日 业绩证伪完成+海外催化",
+      "9月30日 Q3收官",
+      "12月15日 年底兑现窗口"
+    ]
+  },
+  "shared_strategy": {
+    "holding_logic": "中长期看好(半导体国产替代 + Q4 主升预期)",
+    "short_term": "短期不做追涨杀跌,逢大跌可加仓(按各自账户的 -20% 纪律)",
+    "independence": "两账户独立分析,不做组合汇总,各算各的盈亏",
+    "common_rules": {
+      "main_position": "159516 半导体设备 - 各账户主仓",
+      "add_signal": "-20% (按各账户成本)",
+      "stop_loss": "-30% (按各账户成本)",
+      "take_profit": "+30% / +50% 分批止盈"
+    }
+  }
+}

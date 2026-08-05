@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "skills": {
+    "weibo-hot-trend": {
+      "version": "1.0.0",
+      "installedAt": 1785903013345,
+      "ownerHandle": "geniuslishengbo"
+    },
+    "a-stock-portfolio-monitor": {
+      "version": "1.0.0",
+      "installedAt": 1785905147964,
+      "ownerHandle": "sunshinesdff"
+    }
+  }
+}

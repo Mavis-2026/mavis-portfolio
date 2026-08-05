@@ -1,0 +1,56 @@
+name: Weekly
+on:
+  workflow_dispatch:
+    inputs:
+      account:
+        description: 账户
+        type: choice
+        options: [main, sub2, both]
+        default: both
+      skip_dingding:
+        description: 跳过钉钉推送
+        type: boolean
+        default: false
+
+jobs:
+  weekly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: 跑周复盘
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}
+        run: python3 review/weekly_review.py --account ${{ inputs.account }}
+      - name: 推 GitHub
+        run: |
+          git config user.name "Mavis"
+          git config user.email "mavis@local"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "无变化"
+          else
+            git commit -m "weekly: ${{ inputs.account }}"
+            git push
+          fi
+      - name: 推钉钉
+        if: always()
+        env:
+          DINGDING_WEBHOOK: ${{ secrets.DINGDING_WEBHOOK }}
+          DINGDING_SECRET: ${{ secrets.DINGDING_SECRET }}
+          WORKFLOW_STATUS: ${{ job.status }}
+          SKIP_DINGDING: ${{ inputs.skip_dingding }}
+        run: |
+          if [ "$SKIP_DINGDING" = "true" ]; then
+            echo "⏭️ 跳过钉钉(skip_dingding=true)"
+            exit 0
+          fi
+          if ls docs/reports/weekly-review-*.md 1>/dev/null 2>&1; then
+            python3 tools/send_dingding.py
+          else
+            python3 tools/send_dingding.py --mode fail --reason "无周报文件生成"
+          fi

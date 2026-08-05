@@ -1,0 +1,52 @@
+{
+  "159516": {
+    "name": "半导体设备ETF国泰",
+    "vol_ratio": 1.08,
+    "price_change_5d": 7.85,
+    "vol_change_5d": 2.89,
+    "turnover": 23.09,
+    "price_vol_aligned": true,
+    "divergent": false,
+    "signal": "震荡"
+  },
+  "588200": {
+    "name": "科创芯片ETF嘉实",
+    "vol_ratio": 1.52,
+    "price_change_5d": 8.26,
+    "vol_change_5d": 3.83,
+    "turnover": 10.69,
+    "price_vol_aligned": true,
+    "divergent": false,
+    "signal": "看多"
+  },
+  "516650": {
+    "name": "有色金属ETF华夏",
+    "vol_ratio": 0.99,
+    "price_change_5d": 8.59,
+    "vol_change_5d": 68.88,
+    "turnover": 1.54,
+    "price_vol_aligned": true,
+    "divergent": false,
+    "signal": "震荡"
+  },
+  "159915": {
+    "name": "创业板ETF易方达",
+    "vol_ratio": 1.24,
+    "price_change_5d": 8.87,
+    "vol_change_5d": -41.25,
+    "turnover": 4.38,
+    "price_vol_aligned": false,
+    "divergent": true,
+    "signal": "看多"
+  },
+  "513260": {
+    "name": "恒生科技ETF汇添富",
+    "vol_ratio": 0.88,
+    "price_change_5d": 2.57,
+    "vol_change_5d": -15.08,
+    "turnover": 5.31,
+    "price_vol_aligned": false,
+    "divergent": false,
+    "signal": "震荡"
+  }
+}
