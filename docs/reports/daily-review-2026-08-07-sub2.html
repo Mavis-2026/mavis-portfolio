@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>复盘报告 - 副账户 (太平洋证券 **7661) - 2026-08-07</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #0a0e1a;
+    color: #e5e7eb;
+    padding: 16px;
+    line-height: 1.6;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+.header h1 { font-size: 22px; margin-bottom: 4px; }
+.header .date { color: #93c5fd; font-size: 13px; }
+.data-source { font-size: 11px; color: #6ee7b7; margin-top: 4px; }
+.section {
+    background: #1f2937;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 14px;
+    border: 1px solid #374151;
+}
+.section h2 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: #60a5fa;
+    border-bottom: 1px solid #374151;
+    padding-bottom: 8px;
+}
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+.metric-card {
+    background: #111827;
+    border-radius: 8px;
+    padding: 12px;
+    border-left: 3px solid #3b82f6;
+}
+.metric-label { font-size: 12px; color: #9ca3af; margin-bottom: 4px; }
+.metric-value { font-size: 18px; font-weight: 600; }
+.metric-sub { font-size: 11px; color: #9ca3af; margin-top: 2px; }
+/* A 股惯例:涨红跌绿 */
+.profit-positive { color: #ef4444; }
+.profit-negative { color: #10b981; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; padding: 8px 6px; color: #9ca3af; font-weight: 500; font-size: 12px; border-bottom: 1px solid #374151; }
+td { padding: 10px 6px; border-bottom: 1px solid #1f2937; }
+.num { text-align: right; font-family: "SF Mono", Consolas, monospace; }
+.stock-name { font-weight: 600; font-size: 13px; }
+.stock-code { color: #9ca3af; font-size: 11px; }
+.badge { display: inline-block; background: #3b82f6; color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 4px; }
+.badge.core { background: #dc2626; }
+.alert-item {
+    background: linear-gradient(90deg, #7c2d12 0%, #991b1b 100%);
+    border-left: 4px solid #f59e0b;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+.alert-level { font-size: 16px; margin-right: 6px; }
+.no-alert {
+    background: #064e3b;
+    color: #6ee7b7;
+    padding: 12px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 13px;
+}
+.decision-box {
+    background: linear-gradient(90deg, #1e3a8a 0%, #312e81 100%);
+    border-left: 4px solid #3b82f6;
+    padding: 16px;
+    border-radius: 6px;
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+.things-item {
+    background: #111827;
+    border-left: 4px solid #6ee7b7;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+.things-item.warning { border-left-color: #fbbf24; }
+.things-item.danger { border-left-color: #ef4444; }
+.things-item.info { border-left-color: #60a5fa; }
+.insight { background: #1e293b; border-left: 3px solid #8b5cf6; padding: 14px; border-radius: 6px; font-size: 13px; color: #c7d2fe; line-height: 1.8; }
+.insight p { margin: 6px 0; }
+.insight strong { color: #fbbf24; }
+.footer { text-align: center; color: #6b7280; font-size: 11px; margin-top: 20px; padding: 10px; }
+@media (max-width: 600px) {
+    .summary-grid { grid-template-columns: 1fr; }
+    body { padding: 8px; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>📊 Mavis 复盘报告</h1>
+    <div class="date">2026-08-07 | 副账户 (太平洋证券 **7661) | 策略:中线趋势持有至年底</div>
+    <div class="data-source">📅 报告生成时间:2026.08.07 17:31:33 | 📡 数据源: agent 预拉（增强）+ 新浪财经</div>
+</div>
+
+<div class="section">
+    <h2>💰 持仓全景</h2>
+    <div class="summary-grid">
+        <div class="metric-card" style="border-left-color: #3b82f6;">
+            <div class="metric-label">总资产</div>
+            <div class="metric-value">¥49,716</div>
+        </div>
+        <div class="metric-card" style="border-left-color: #8b5cf6;">
+            <div class="metric-label">总市值</div>
+            <div class="metric-value">¥21,984</div>
+            <div class="metric-sub">仓位 44.2%</div>
+        </div>
+        <div class="metric-card" style="border-left-color: #10b981;">
+            <div class="metric-label">总盈亏</div>
+            <div class="metric-value profit-negative">-293</div>
+            <div class="metric-sub profit-negative">-1.32%</div>
+        </div>
+        <div class="metric-card" style="border-left-color: #f59e0b;">
+            <div class="metric-label">可用资金</div>
+            <div class="metric-value">¥27,732</div>
+            <div class="metric-sub">占总资产 55.8%</div>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>📋 持仓明细</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>名称</th>
+                <th class="num">股数</th>
+                <th class="num">成本</th>
+                <th class="num">现价</th>
+                <th class="num">市值</th>
+                <th class="num">浮盈</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        <tr>
+            <td><div class="stock-name">科创芯片ETF嘉实</div><div class="stock-code">588200</div></td>
+            <td class="num">12,000</td>
+            <td class="num">1.245</td>
+            <td class="num">1.217</td>
+            <td class="num">¥14,604</td>
+            <td class="num profit-negative">-2.29%</td>
+        </tr>
+        <tr>
+            <td><div class="stock-name">半导体设备ETF国泰</div><div class="stock-code">159516</div></td>
+            <td class="num">10,000</td>
+            <td class="num">0.733</td>
+            <td class="num">0.738</td>
+            <td class="num">¥7,380</td>
+            <td class="num profit-positive">+0.66%</td>
+        </tr>
+        <tr style="border-top: 2px solid #374151; font-weight: 600;">
+            <td>合计</td>
+            <td class="num"></td>
+            <td class="num"></td>
+            <td class="num"></td>
+            <td class="num">¥21,984</td>
+            <td class="num profit-negative">-293 (-1.32%)</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="section">
+    <h2>🌡️ 大盘指数</h2>
+    <div class="summary-grid">
+        <div class="metric-card" style="border-left-color: #3b82f6;">
+            <div class="metric-label">上证指数</div>
+            <div class="metric-value">3940.04</div>
+            <div class="metric-sub profit-positive">+1.02%</div>
+        </div>
+        <div class="metric-card" style="border-left-color: #8b5cf6;">
+            <div class="metric-label">深证指数</div>
+            <div class="metric-value">14311.01</div>
+            <div class="metric-sub profit-positive">+1.42%</div>
+        </div>
+        <div class="metric-card" style="border-left-color: #10b981;">
+            <div class="metric-label">创业板指数</div>
+            <div class="metric-value">3563.12</div>
+            <div class="metric-sub profit-positive">+1.35%</div>
+        </div></div>
+    <div style="margin-top: 16px;">
+        <div class="metric-card" style="border-left-color: #f59e0b; max-width: 400px; margin: 0 auto;">
+        <div class="metric-label">A 股成交额总计</div>
+        <div class="metric-value">¥26,644 亿</div>
+        <div class="metric-sub profit-positive" style="font-size: 13px; font-weight: 600;">较上一日 放量+1356 亿(+5.36%) | 昨日 ¥25,288 亿</div>
+    </div>
+    </div>
+</div>
+
+    <div class="section">
+        <h2>📊 价格 vs 均价（agent 预拉）</h2>
+        <table class="data-table">
+            <thead>
+                <tr><th>代码</th><th>名称</th><th>当前</th><th>MA20</th><th>MA60</th><th>MA120</th><th>年内位置</th><th>看多信号</th></tr>
+            </thead>
+            <tbody>
+        <tr>
+            <td>159516</td>
+            <td>半导体设备ETF国泰</td>
+            <td>0.738</td>
+            <td>0.724</td>
+            <td>1.206</td>
+            <td>1.276</td>
+            <td>9.6%</td>
+            <td>>MA20</td>
+        </tr>
+        <tr>
+            <td>588200</td>
+            <td>科创芯片ETF嘉实</td>
+            <td>1.217</td>
+            <td>2.031</td>
+            <td>3.317</td>
+            <td>2.995</td>
+            <td>4.5%</td>
+            <td>—</td>
+        </tr></tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>📈 量价配合（agent 预拉）</h2>
+        <table class="data-table">
+            <thead>
+                <tr><th>代码</th><th>名称</th><th>量比</th><th>5日价变%</th><th>5日量变%</th><th>5日均换手%</th><th>配合</th><th>信号</th></tr>
+            </thead>
+            <tbody>
+        <tr>
+            <td>159516</td>
+            <td>半导体设备ETF国泰</td>
+            <td>0.970</td>
+            <td>+21.98%</td>
+            <td>-27.9%</td>
+            <td>—%</td>
+            <td>❌</td>
+            <td style="color:#f59e0b">震荡</td>
+        </tr>
+        <tr>
+            <td>588200</td>
+            <td>科创芯片ETF嘉实</td>
+            <td>1.160</td>
+            <td>+16.91%</td>
+            <td>-21.4%</td>
+            <td>—%</td>
+            <td>❌</td>
+            <td style="color:#f59e0b">震荡</td>
+        </tr></tbody>
+        </table>
+    </div>
+<div class="section"><h2>📱 微博舆情（agent 预拉）</h2><p><b>命中关键词：2 条</b></p><ul><li><b>[韩国]</b> 韩国被爆性贿赂世预赛裁判</li><li><b>[AI]</b> 戚薇AI短剧 雷霆视角</li></ul></div>
+
+    <div class="section">
+        <h2>🤖 AI 分析</h2>
+        <div class="insight"><p># 复盘报告</p><p><strong>账户:副账户 7661 | 日期:2026-08-01</strong></p><h3>一、持仓诊断</h3><p><strong>588200 科创芯片ETF嘉实</strong> | 持股 12,000 | 成本 1.245 | 现价 1.217 | 浮亏 -2.29% | 今日 +3.57%</p><p>今日科创芯片大涨 3.57%，将浮亏从约 -5.5% 快速收窄至 -2.29%，距加仓线 1.059 仍有 13.0% 空间，距止损线 0.872 有 28.3% 空间，安全垫充足。当前价格仍低于成本，但今日大阳线力度值得注意——单日涨幅超过 3.5% 在科创芯片中不算小，说明资金开始回流。成本 1.245 是前期高位区域，短期压力位在 1.25-1.27 区间（前高密集区），若能放量突破则趋势反转确认，若冲高回落则仍是震荡格局。<strong>持有。</strong></p><p><strong>159516 半导体设备ETF国泰</strong> | 持股 10,000 | 成本 0.733 | 现价 0.738 | 浮盈 +0.66% | 今日 +3.36%</p><p>半导体设备今日 +3.36%，由浮亏转为浮盈 +0.66%，重新站上成本线。距加仓线 0.623 有 15.6% 空间，距止损线 0.513 有 30.5% 空间，关键位距离安全。半导体设备近期走势明显强于科创芯片——从成本线附近率先反弹，说明设备板块的国产替代逻辑更受资金认可。<strong>持有。</strong></p><p>两只持仓均为半导体产业链，今日同步大涨 3.4%+，呈现明显的板块联动效应。合计浮亏收窄至 -293 元（-1.32%），账户整体已接近盈亏平衡。今日无任何信号触发，维持"持有不动"判断。</p><h3>二、大盘环境</h3><p>上证 3940.04，深证 14311.01，创业板 3563.12。A 股总成交额 26,644 亿，较上一日放量 +5.36%，属于温和放量上涨。</p><p>上证在 3940 点附近，距离 3800 政策底有 3.6% 的安全距离，政策底暂时无忧。创业板 3563 点涨幅领先，说明成长风格占优，与半导体板块大涨形成呼应。</p><p><strong>关键判断</strong>：今日是"放量 + 成长领涨"的组合，属于偏健康的上攻形态。但 26,644 亿的成交额不算极端放量，说明增量资金有限，更多是存量资金从其他板块切换到半导体/成长方向。大盘风格正在从防御转向进攻，但持续性需观察。</p><h3>三、板块情绪</h3><p>半导体产业链今日全面走强——科创芯片 +3.57%、半导体设备 +3.36%，两只持仓均大幅跑赢大盘。板块与大盘的关系是<strong>独立走强</strong>而非跟随反弹：上证涨幅温和，但半导体板块涨幅显著领先，说明资金主动选择半导体方向，而非系统性普涨。</p><p><strong>主仓 vs 板块代理</strong>：588200 科创芯片今日 +3.57%，跟踪的是科创板芯片指数，与半导体设备（159516）涨幅接近，两者 alpha 差异不大，说明今日是板块整体行情而非个别细分方向独走。</p><p>半导体设备近期持续强于科创芯片，反映的是"国产替代"逻辑比"AI 算力"逻辑在当前阶段更受资金认可——设备是确定性最强的国产替代环节，而芯片设计（科创芯片权重股）受海外制裁和需求波动影响更大。这个分化值得持续跟踪。</p><p>板块情绪评级：<strong>偏强</strong>。半导体连续两日走强，今日放量上攻，短期情绪面改善明显。但需注意，单日大涨不代表趋势反转，仍需观察能否连续站稳 5 日/10 日均线。</p><h3>四、风险与机会</h3><p><strong>风险：</strong></p><p>1. <strong>板块集中度风险</strong>：两只持仓均为半导体产业链，行业逻辑高度相关。若半导体板块出现系统性回调（如海外制裁升级、AI 叙事降温），两只 ETF 将同步承压，账户无分散效果。虽然当前体系不区分主仓/卫星，但 100% 集中于单一产业链，在体系层面是值得审视的。</p><p>2. <strong>反弹持续性存疑</strong>：今日大涨 3.5%+ 后，短期涨幅较大。若明日冲高回落，可能形成短期高点，浮盈/浮亏将再次反复。中线持有者不必过于在意单日波动，但不宜因今日大涨而追加仓位——<strong>不追涨</strong>。</p><p>3. <strong>未触发但需警惕</strong>：588200 距加仓线仍有 13% 空间，若后续回调至 1.059 附近，需按体系执行 3+4 验证。目前未触发，不做预操作。</p><p><strong>机会：</strong></p><p>1. <strong>半导体设备逻辑强化</strong>：159516 已站回成本线上方，若后续回踩不破 0.733 成本线，则形成"成本线支撑"的加仓窗口（但需等待体系触发，不主动预判）。</p><p>2. <strong>科创芯片修复空间</strong>：588200 浮亏收窄至 -2.29%，若板块情绪延续，有望率先回本。回本后是否减仓需提前想清楚——体系内 +50% 才触发止盈，回本不是操作信号，<strong>不要因"回本就卖"的心理干扰持有决策</strong>。</p><h3>五、心理与建议</h3><p>当前最需要克服的心理是<strong>"回本焦虑"</strong>——588200 浮亏从 -5% 收窄至 -2.29%，接近回本时容易出现两种错误：一是"回本赶紧跑"，二是"回本后加仓搏一把"。体系内都没有依据。</p><p><strong>体系建议</strong>：588200 浮亏 -2.29%、159516 浮盈 +0.66%，均远未触发任何操作闸门（加仓 -10%、止损 -30%、止盈 +50%）。当前最优策略就是<strong>持有不动</strong>，让利润奔跑、让亏损被时间消化。</p><p><strong>敢提反对意见的部分</strong>：账户 100% 集中于半导体产业链，虽然当前板块逻辑未变，但这个集中度在体系外是值得讨论的。若后续出现其他行业（如恒生科技、有色）的体系内加仓信号，建议考虑适度分散，而非全部押注半导体。这不是对半导体逻辑的否定，而是对账户整体风险结构的优化。</p><p><strong>明确边界</strong>：不做任何操作，等待 588200 回到成本线上方或触发体系信号。</p><p><strong>一句话总结</strong>：板块情绪转强，账户接近回本，但未触发任何操作信号——拿住，别动。</p></div>
+    </div>
+
+<div class="footer">
+    报告生成时间:2026.08.07 17:31:33 | 数据源:新浪财经 API | 仅供个人复盘参考,不构成投资建议
+</div>
+
+</body>
+</html>

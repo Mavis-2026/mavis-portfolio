@@ -1,0 +1,11 @@
+{
+  "date": "2026-08-07",
+  "pulled_at": "2026-08-07T17:30:46.859047+08:00",
+  "sources": {
+    "price_vs_ma": "ok",
+    "volume_price": "ok",
+    "weibo": "ok"
+  },
+  "weibo_matched": 2,
+  "fallback": false
+}
