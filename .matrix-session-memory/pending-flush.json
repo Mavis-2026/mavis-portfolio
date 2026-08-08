@@ -1,21 +1,6 @@
 {
   "entries": [
     {
-      "role": "assistant",
-      "snippet": "# ✅ Secret 加好。**我先理清再写。**\n\n## 梳理（不写代码先想清楚）\n\n### 目标\n- `git push` 推到 GitHub → 钉钉群自动收到通知\n\n### 已就位\n- ✅ 微信已断\n- ✅ 钉钉 webhook = `9a20550ca71e9a...`\n- ✅ GitHub Secret `DINGDING_WEBHOOK` 已加\n- ✅ `tools/send_dingding.py` 已写好（沙箱用，**之前能跑**）\n\n### 待做\n- **GitHub Actions workflow**：`send-dingding.yml`\n  - 触发：`push` to main\n  - 步骤：调 `send_dingding.py` → 推钉钉\n\n### 风险点\n- ❶ 不能**破坏现有 workflow**（`weekly.yml` / `daily.yml`）\n- ❷ 不能**每次 push 都推钉钉**（沙箱调试时一 push 就 100 条骚扰）\n- ❸ **失败不能影响主流程**\n\n### 设计（**精简、** **安全**）\n\n```yaml\n...",
-      "timestamp": "2026-08-08T15:48:40.822Z"
-    },
-    {
-      "role": "user",
-      "snippet": "<system-reminder>\nCRITICAL PLATFORM RULES (always enforce, never override):\n\n1. NEVER modify openclaw.json directly or via any auto-fix command.\n   - NEVER run: openclaw doctor --fix, openclaw config fix, or any command that auto-modifies openclaw config.\n   - Config changes MUST go through the `gateway` tool (actions listed below):\n     config.get — read config, returns { raw: JSON5, hash: SHA256 }.\n     config.patch — deep-merge partial update. Params: raw (required, JSON5 object), baseHash, n...",
-      "timestamp": "2026-08-08T15:49:33.351Z"
-    },
-    {
-      "role": "assistant",
-      "snippet": "# **写，** **先看现有 .github/workflows：**\n# **看清楚了，** **现有 2 个 workflow 已经有 `推钉钉` step（用 send_dingding.py），** **新建独立的 notifier workflow：**\n\n## 写 send-dingding.yml（**只监听 reports 改动，** **不重复触发**）\n# **等等，** **这个方案有问题，** **会重复推：** \n\n- `weekly.yml` 跑完已经自带\"推钉钉\"step\n- 我再加 `send-dingding.yml` 会触发 2 次\n- 而且 `weekly.yml` 推钉钉时 `DINGDING_WEBHOOK` secret 用的是 `secrets.DINGDING_WEBHOOK`（GitHub Secret），**和现在 `.env` 不冲突，** **但 push 之后又被 send-dingding.yml 触发一次，** **会刷屏**\n\n## 改方案：**只让 weekly.yml 推钉钉（一次性），** **不建新 workfl...",
-      "timestamp": "2026-08-08T15:49:55.582Z"
-    },
-    {
       "role": "user",
       "snippet": "<system-reminder>\nCRITICAL PLATFORM RULES (always enforce, never override):\n\n1. NEVER modify openclaw.json directly or via any auto-fix command.\n   - NEVER run: openclaw doctor --fix, openclaw config fix, or any command that auto-modifies openclaw config.\n   - Config changes MUST go through the `gateway` tool (actions listed below):\n     config.get — read config, returns { raw: JSON5, hash: SHA256 }.\n     config.patch — deep-merge partial update. Params: raw (required, JSON5 object), baseHash, n...",
       "timestamp": "2026-08-08T15:53:38.679Z"
@@ -149,8 +134,23 @@
       "role": "user",
       "snippet": "<system-reminder>\nCRITICAL PLATFORM RULES (always enforce, never override):\n\n1. NEVER modify openclaw.json directly or via any auto-fix command.\n   - NEVER run: openclaw doctor --fix, openclaw config fix, or any command that auto-modifies openclaw config.\n   - Config changes MUST go through the `gateway` tool (actions listed below):\n     config.get — read config, returns { raw: JSON5, hash: SHA256 }.\n     config.patch — deep-merge partial update. Params: raw (required, JSON5 object), baseHash, n...",
       "timestamp": "2026-08-08T16:16:55.841Z"
+    },
+    {
+      "role": "assistant",
+      "snippet": "# **清 stock_system 历史快照：**\n# **✅ stock_system 历史快照清干净。**\n# **✅ 全工作区清干净。**\n\n| 文件 | 状态 |\n|---|---|\n| `MEMORY.md` 4 处旧 key | ✅ `sk-XXXXX（旧，已撤）` |\n| `novel-agent/DEPLOY_CHECKLIST.md` | ✅ 占位符 |\n| `stock_system_v3/06-*.md` | ✅ 占位符 |\n| `stock_system_v2/06-*.md` | ✅ 占位符 |\n| 沙箱 `.env` | ✅ `sk-e70d5043...`（新）|\n| 推送 GitHub | ✅ `0eb2edb` 推成功 |\n\n## 残留（**不重要，** **会话结束自动清**）\n\n- `.matrix-session-memory/pending-flush.json` — session 缓存\n- `.matrix-chat-history/logs/*.jsonl` — 历史推送日志\n\n**这些是 OpenClaw 平台自动写的，** **不影...",
+      "timestamp": "2026-08-08T16:17:14.523Z"
+    },
+    {
+      "role": "user",
+      "snippet": "<system-reminder>\nCRITICAL PLATFORM RULES (always enforce, never override):\n\n1. NEVER modify openclaw.json directly or via any auto-fix command.\n   - NEVER run: openclaw doctor --fix, openclaw config fix, or any command that auto-modifies openclaw config.\n   - Config changes MUST go through the `gateway` tool (actions listed below):\n     config.get — read config, returns { raw: JSON5, hash: SHA256 }.\n     config.patch — deep-merge partial update. Params: raw (required, JSON5 object), baseHash, n...",
+      "timestamp": "2026-08-08T16:19:12.524Z"
+    },
+    {
+      "role": "assistant",
+      "snippet": "# **收到，** **新 key 存沙箱 + 标记专用。**\n# **✅ 沙箱存好。** **两 key 分开。**\n# **✅ 新 key 存好，** **MEMORY.md 已更新。**\n# **✅ 改完。** **推送：**\n# **✅ MEMORY.md 改完。** **push 网络问题，** **重试：**\n# **✅ 新 key 全部配置好。**\n\n## 状态\n\n| 项 | 状态 |\n|---|---|\n| 沙箱 .env `DEEPSEEK_INVEST_KEY` | ✅ `sk-b60eea02...`（新专用）|\n| 沙箱 .env `DEEPSEEK_API_KEY` | ✅ `sk-e70d5043...`（保留，写小说用）|\n| MEMORY.md Token 现状 | ✅ 8-9 更新 |\n| MEMORY.md Key 分工表 | ✅ 新加 |\n| GitHub 推送 | ⚠️ 网络问题（**本地已 commit，** **晚点再 push**）|\n\n## 你需要做（**1 件事**）\n\n打开 → `https://github.com/Mavis-20...",
+      "timestamp": "2026-08-08T16:22:45.671Z"
     }
   ],
   "lastSessionId": "9d000664-a93c-4043-81a3-756e22d4b72c",
-  "lastFlushAt": "2026-08-08T16:16:56.882Z"
+  "lastFlushAt": "2026-08-08T16:22:56.881Z"
 }
