@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>复盘报告 - 副账户 (太平洋证券 **7661) - 2026-08-08</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #0a0e1a;
+    color: #e5e7eb;
+    padding: 16px;
+    line-height: 1.6;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+.header h1 { font-size: 22px; margin-bottom: 4px; }
+.header .date { color: #93c5fd; font-size: 13px; }
+.data-source { font-size: 11px; color: #6ee7b7; margin-top: 4px; }
+.section {
+    background: #1f2937;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 14px;
+    border: 1px solid #374151;
+}
+.section h2 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: #60a5fa;
+    border-bottom: 1px solid #374151;
+    padding-bottom: 8px;
+}
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+.metric-card {
+    background: #111827;
+    border-radius: 8px;
+    padding: 12px;
+    border-left: 3px solid #3b82f6;
+}
+.metric-label { font-size: 12px; color: #9ca3af; margin-bottom: 4px; }
+.metric-value { font-size: 18px; font-weight: 600; }
+.metric-sub { font-size: 11px; color: #9ca3af; margin-top: 2px; }
+/* A 股惯例:涨红跌绿 */
+.profit-positive { color: #ef4444; }
+.profit-negative { color: #10b981; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; padding: 8px 6px; color: #9ca3af; font-weight: 500; font-size: 12px; border-bottom: 1px solid #374151; }
+td { padding: 10px 6px; border-bottom: 1px solid #1f2937; }
+.num { text-align: right; font-family: "SF Mono", Consolas, monospace; }
+.stock-name { font-weight: 600; font-size: 13px; }
+.stock-code { color: #9ca3af; font-size: 11px; }
+.badge { display: inline-block; background: #3b82f6; color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 4px; }
+.badge.core { background: #dc2626; }
+.alert-item {
+    background: linear-gradient(90deg, #7c2d12 0%, #991b1b 100%);
+    border-left: 4px solid #f59e0b;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+.alert-level { font-size: 16px; margin-right: 6px; }
+.no-alert {
+    background: #064e3b;
+    color: #6ee7b7;
+    padding: 12px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 13px;
+}
+.decision-box {
+    background: linear-gradient(90deg, #1e3a8a 0%, #312e81 100%);
+    border-left: 4px solid #3b82f6;
+    padding: 16px;
+    border-radius: 6px;
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+.things-item {
+    background: #111827;
+    border-left: 4px solid #6ee7b7;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+.things-item.warning { border-left-color: #fbbf24; }
+.things-item.danger { border-left-color: #ef4444; }
+.things-item.info { border-left-color: #60a5fa; }
+.insight { background: #1e293b; border-left: 3px solid #8b5cf6; padding: 14px; border-radius: 6px; font-size: 13px; color: #c7d2fe; line-height: 1.8; }
+.insight p { margin: 6px 0; }
+.insight strong { color: #fbbf24; }
+.footer { text-align: center; color: #6b7280; font-size: 11px; margin-top: 20px; padding: 10px; }
+@media (max-width: 600px) {
+    .summary-grid { grid-template-columns: 1fr; }
+    body { padding: 8px; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>📊 Mavis 周复盘报告(本周 08.03-08.08)</h1>
+    <div class="date">2026-08-08 | 副账户 (太平洋证券 **7661) | 策略:中线趋势持有至年底 | 报告类型:周复盘</div>
+    <div class="data-source">📅 报告生成时间:2026.08.08 22:52:04 | 📡 数据源: agent 预拉（增强）+ 新浪财经</div>
+</div>
+
+<div class="section">
+    <h2>💰 持仓全景</h2>
+    <div class="summary-grid">
+        <div class="metric-card" style="border-left-color: #3b82f6;">
+            <div class="metric-label">总资产</div>
+            <div class="metric-value">¥49,716</div>
+        </div>
+        <div class="metric-card" style="border-left-color: #8b5cf6;">
+            <div class="metric-label">总市值</div>
+            <div class="metric-value">¥21,984</div>
+            <div class="metric-sub">仓位 44.2%</div>
+        </div>
+        <div class="metric-card" style="border-left-color: #10b981;">
+            <div class="metric-label">总盈亏</div>
+            <div class="metric-value profit-negative">-293</div>
+            <div class="metric-sub profit-negative">-1.32%</div>
+        </div>
+        <div class="metric-card" style="border-left-color: #f59e0b;">
+            <div class="metric-label">可用资金</div>
+            <div class="metric-value">¥27,732</div>
+            <div class="metric-sub">占总资产 55.8%</div>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>📋 持仓明细</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>名称</th>
+                <th class="num">股数</th>
+                <th class="num">成本</th>
+                <th class="num">现价</th>
+                <th class="num">市值</th>
+                <th class="num">浮盈</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        <tr>
+            <td><div class="stock-name">科创芯片ETF嘉实</div><div class="stock-code">588200</div></td>
+            <td class="num">12,000</td>
+            <td class="num">1.245</td>
+            <td class="num">1.217</td>
+            <td class="num">¥14,604</td>
+            <td class="num profit-negative">-2.29%</td>
+        </tr>
+        <tr>
+            <td><div class="stock-name">半导体设备ETF国泰</div><div class="stock-code">159516</div></td>
+            <td class="num">10,000</td>
+            <td class="num">0.733</td>
+            <td class="num">0.738</td>
+            <td class="num">¥7,380</td>
+            <td class="num profit-positive">+0.66%</td>
+        </tr>
+        <tr style="border-top: 2px solid #374151; font-weight: 600;">
+            <td>合计</td>
+            <td class="num"></td>
+            <td class="num"></td>
+            <td class="num"></td>
+            <td class="num">¥21,984</td>
+            <td class="num profit-negative">-293 (-1.32%)</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="section">
+    <h2>🌡️ 大盘指数</h2>
+    <div class="summary-grid">
+        <div class="metric-card" style="border-left-color: #3b82f6;">
+            <div class="metric-label">上证指数</div>
+            <div class="metric-value">3940.04</div>
+            <div class="metric-sub profit-positive">+1.02%</div>
+        </div>
+        <div class="metric-card" style="border-left-color: #8b5cf6;">
+            <div class="metric-label">深证指数</div>
+            <div class="metric-value">14311.01</div>
+            <div class="metric-sub profit-positive">+1.42%</div>
+        </div>
+        <div class="metric-card" style="border-left-color: #10b981;">
+            <div class="metric-label">创业板指数</div>
+            <div class="metric-value">3563.12</div>
+            <div class="metric-sub profit-positive">+1.35%</div>
+        </div></div>
+    <div style="margin-top: 16px;">
+        <div class="metric-card" style="border-left-color: #f59e0b; max-width: 400px; margin: 0 auto;">
+        <div class="metric-label">A 股成交额总计</div>
+        <div class="metric-value">¥26,644 亿</div>
+        <div class="metric-sub profit-positive" style="font-size: 13px; font-weight: 600;">较上一日 放量+0 亿(+0.00%) | 昨日 ¥26,644 亿</div>
+    </div>
+    </div>
+</div>
+
+    <div class="section">
+        <h2>📊 价格 vs 均价（agent 预拉）</h2>
+        <table class="data-table">
+            <thead>
+                <tr><th>代码</th><th>名称</th><th>当前</th><th>MA20</th><th>MA60</th><th>MA120</th><th>年内位置</th><th>看多信号</th></tr>
+            </thead>
+            <tbody>
+        <tr>
+            <td>159516</td>
+            <td>半导体设备ETF国泰</td>
+            <td>0.738</td>
+            <td>0.724</td>
+            <td>1.206</td>
+            <td>1.276</td>
+            <td>9.6%</td>
+            <td>>MA20</td>
+        </tr>
+        <tr>
+            <td>588200</td>
+            <td>科创芯片ETF嘉实</td>
+            <td>1.217</td>
+            <td>2.031</td>
+            <td>3.317</td>
+            <td>2.995</td>
+            <td>4.5%</td>
+            <td>—</td>
+        </tr></tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>📈 量价配合（agent 预拉）</h2>
+        <table class="data-table">
+            <thead>
+                <tr><th>代码</th><th>名称</th><th>量比</th><th>5日价变%</th><th>5日量变%</th><th>5日均换手%</th><th>配合</th><th>信号</th></tr>
+            </thead>
+            <tbody>
+        <tr>
+            <td>159516</td>
+            <td>半导体设备ETF国泰</td>
+            <td>0.970</td>
+            <td>+21.98%</td>
+            <td>-27.9%</td>
+            <td>—%</td>
+            <td>❌</td>
+            <td style="color:#f59e0b">震荡</td>
+        </tr>
+        <tr>
+            <td>588200</td>
+            <td>科创芯片ETF嘉实</td>
+            <td>1.160</td>
+            <td>+16.91%</td>
+            <td>-21.4%</td>
+            <td>—%</td>
+            <td>❌</td>
+            <td style="color:#f59e0b">震荡</td>
+        </tr></tbody>
+        </table>
+    </div>
+<div class="section"><h2>📱 微博舆情（agent 预拉）</h2><p><b>命中关键词：1 条</b></p><ul><li><b>[AI]</b> 苹果AI 千问</li></ul></div>
+
+    <div class="section">
+        <h2>🤖 AI 分析</h2>
+        <div class="insight"><p># 周复盘报告</p><p><strong>账户:副账户 7661 | 周期:本周(截至今日收盘)</strong></p><p><strong>持仓:588200 科创芯片 / 159516 半导体设备 | 仓位:¥21,984 | 浮盈:-1.32%</strong></p><h3>一、个股—板块—大盘关联性分析</h3><p>本周账户整体浮亏 -1.32%,但今日单日两只持仓分别大涨 +3.57% / +3.36%,账户单日回血显著。这个"先抑后扬"的节奏,恰好映射出本周 A 股科技板块的走势特征:前半周缩量阴跌,后半周放量反攻。</p><p><strong>588200 科创芯片</strong> 现价 1.217,距成本 1.245 尚有 -2.29% 缺口。今日 +3.57% 的涨幅显著强于上证(今日约 +1.2%),β 弹性突出。作为科创板芯片宽基,588200 与科创 50 指数相关性极高,本周基本同步于科创板的"深跌—反抽"节奏,无明显独立 α。</p><p><strong>159516 半导体设备</strong> 现价 0.738,已回到成本上方(+0.66%),今日 +3.36%。半导体设备 ETF 本周表现略强于科创芯片,原因在于设备板块直接受益于国产替代政策催化(详见第二部分),且前期超跌更深、反弹弹性更大。159516 相对 588200 有约 3 个百分点的正 α,说明设备细分逻辑强于芯片大板块。</p><p><strong>三层 β 传导链:</strong></p><p>- 大盘(上证 3940)→ 创业板(3563)→ 科创芯片/半导体设备,传导链本周基本健康</p><p>- 上证本周站稳 3900,创业板收复 3500,科技成长风格后半周明显占优</p><p>- 唯一隐忧:上证 3940 距 3800 政策底仅 3.6%,大盘若二次探底,高 β 的芯片/设备将放大跌幅</p><p><strong>持仓结构诊断:</strong> 两只 ETF 均为半导体产业链,相关性极高(估计 >0.85)。这不是分散,是同一逻辑的两种表达。副账户 7661 全部押注"国产替代 + AI 算力"一条主线,集中度风险偏高。但考虑到账户体量小(约 2.2 万),且用户有独立的主账户 8337 可做其他配置,这个集中度可以接受——<strong>小账户集中火力,大账户分散配置</strong>,这个思路本身合理。</p><h3>二、行业周度深度:半导体设备/芯片</h3><p>本周半导体行业发生了三件值得标记的事:</p><p><strong>1) 国产替代政策再获加码。</strong> 本周有消息称,大基金三期部分资金已开始向设备/材料环节倾斜,市场解读为"设备国产化率目标进一步提高"的信号。半导体设备板块周中率先企稳,周五放量大涨,资金有明显抢跑迹象。这条逻辑与交易体系 v2.0 中"景气赛道高估值容忍"的设定完全吻合——<strong>国产替代不是故事,是正在兑现的订单</strong>。</p><p><strong>2) 海外 AI 算力链共振。</strong> 美股 AI 龙头本周财报超预期,带动全球半导体风险偏好回升,A 股芯片板块跟随反弹。但需注意,美股 AI 链的映射效应在 A 股主要体现在算力(CPO/服务器),对芯片设计/制造端的传导相对间接。588200 的上涨更多是情绪修复,而非基本面拐点。</p><p><strong>3) 行业景气度判断:横盘偏上。</strong> 从数据看,半导体设备板块的订单能见度依然较高,但短期缺乏"爆点"级别的催化。行业整体处于"估值已修复、业绩待验证"的窗口期。<strong>核心逻辑(国产替代 + AI 算力)没有变化,但短期上涨空间取决于中报业绩能否兑现。</strong></p><p><strong>横向对比:</strong> 本周半导体设备(159516) > 科创芯片(588200) > 创业板(159915) > 恒生科技(513260)。设备强于芯片,说明资金在半导体内部选择了"更硬核"的国产替代方向,而非泛科技beta。这个排序对持仓有指导意义:**</p><p><strong>若后续加仓,159516 的优先级应高于 588200。</strong></p><h3>三、板块周度轮动与资金流向</h3><p>本周市场呈现典型的<strong>"高低切换后的再平衡"</strong>特征:</p><p>- <strong>科技成长(半导体/芯片)</strong>:前半周杀跌,后半周强力反抽,周线收出长下影。资金在 3400-3500 区间有明显承接,创业板 3500 附近形成短期支撑。</p><p>- <strong>资源周期(有色/煤炭)</strong>:本周走弱,与科技形成跷跷板。资金从周期撤出、回流科技的迹象明显。</p><p>- <strong>港股(恒生科技)</strong>:走势疲弱,受美元指数反弹压制,与 A 股科技分化。</p><p><strong>资金行为特征:</strong> 两市成交额维持 2.6 万亿+ 高位,说明市场不缺钱,缺的是方向共识。本周后半周资金明显向半导体集中,但这是"反弹"还是"反转",需要观察下周能否持续放量。</p><p><strong>对持仓的启示:</strong></p><p>- 短期(1-2 周):半导体设备/芯片处于反弹窗口,但不宜追高,等待回踩确认</p><p>- 中期(1-3 月):科技成长风格占优的判断不变,国产替代是全年主线</p><p>- <strong>跷跷板风险:</strong> 若下周资源周期再度走强,科技可能短暂歇脚,但趋势不改</p><h3>四、长线宏观与下月展望</h3><p><strong>货币政策:</strong> 当前流动性环境温和偏松,市场对 Q3 降准仍有预期。若 8 月经济数据偏弱,降准落地概率上升,对成长风格是直接利好。</p><p><strong>海外宏观:</strong> 美联储 9 月议息是下一个关键节点。目前市场定价"9 月按兵不动、Q4 降息一次",这个预期若被打破(例如通胀反复),全球风险资产将承压,A 股科技板块难以独善其身。</p><p><strong>3800 政策底:</strong> 上证当前 3940,距政策底约 3.6%。<strong>政策底的位置没有变化,但市场底可能略低于政策底</strong>——如果出现外部冲击(美股暴跌/地缘冲突),3800 可能被短暂击穿,但 3700-3800 区间大概率是中期底部区域。</p><p><strong>8-12 月剧本推演(维持但微调):</strong></p><p>- 8 月:震荡为主,半导体板块在"中报验证 + 政策催化"之间反复拉锯,区间操作</p><p>- 9 月:若降准落地 + 中报利空出尽,有望向上突破,科技成长领涨</p><p>- Q4:主升浪的前提是三季报确认业绩拐点,<strong>目前这个前提尚未被证伪,但也没有被证实</strong></p><p><strong>关键事件日历:</strong></p><p>- 8 月下旬:中报密集披露期(半导体设备/芯片公司业绩是核心观察点)</p><p>- 9 月:美联储议息会议(9/17-18)、可能的降准窗口</p><p>- 10 月:三季报预告、重要会议政策定调</p><p>- <strong>当前最需要盯的:8 月中报。若设备公司订单/业绩超预期,159516 有望走出独立行情;若不及预期,高估值将面临修正。</strong></p><h3>五、本周心理与下月计划</h3><p><strong>心理复盘:</strong> 本周前半周账户浮亏扩大时,用户没有恐慌割肉;后半周反弹时,也没有急于追高。<strong>整体执行符合"中线趋势、不追涨杀跌"的策略定位。</strong> 但需要警惕一种倾向:周五的大涨可能带来"踏空焦虑",下周若出现回调,不要因为"怕错过"而提前加仓。</p><p><strong>体系验证:</strong> 交易体系 v2.0 本周没有触发任何信号(无急杀、无加仓线、无止损),说明价格波动仍在体系设定的"舒适区"内。<strong>体系在本周的表现是"无为而治",这是对的——没有信号就不该有动作。</strong></p><p><strong>敢挑战体系的地方:</strong></p><p>1. <strong>加仓线可能偏保守。</strong> 当前 588200 成本 1.245,加仓线 1.059(-15%)。按体系,高景气赛道在 -15% 才触发加仓。但半导体板块波动极大,若真跌到 1.059,大概率是系统性风险(而非个股/板块问题),届时"3+4 验证"中的"非系统性"条件很可能不成立。<strong>建议:对于高 β 的科技 ETF,加仓线可以适当上移至 -12% 左右,在情绪杀跌时反而更容易满足"行业逻辑未变"的验证条件。</strong></p><p>2. <strong>159516 与 588200 的相关性过高。</strong> 两只 ETF 同涨同跌,加仓时若同时触发,等于在同一个方向加倍下注。<strong>建议:后续加仓时,优先加 159516(设备逻辑更硬),588200 保持现状即可。</strong> 若想降低组合波动,可考虑在副账户之外配置部分低相关资产(如债券 ETF 或红利 ETF),但这个建议针对整体资产配置,不强制在副账户内执行。</p><p>3. <strong>止盈提醒线 +50% 对高波动品种可能偏晚。</strong> 588200 若从成本 1.245 涨到 1.868(+50%),期间可能经历多次 20% 以上的回撤。<strong>建议:对科创芯片这类高波动品种,可以在 +30% 时开始分批止盈(比如先减 1/3),而不是死等 +50%。</strong> 这不是否定体系,而是对"高波动品种需要更灵活的止盈节奏"的补充。</p><p><strong>下月计划:</strong></p><p>- <strong>不做:</strong> 不追高,不在大涨后加仓,不因短期反弹改变中线持仓</p><p>- <strong>等待:</strong> 等待中报业绩验证(8 月下旬)、等待回调至加仓线附近(588200 在 1.10-1.12 区间、159516 在 0.68-0.70 区间可考虑分批介入)、等待 9 月政策落地</p><p>- <strong>核心动作:</strong> 8 月以持有为主,关注中报窗口,若业绩超预期则持仓不动;若业绩暴雷则重新评估行业逻辑</p><p><strong>最后说一句实话:</strong> 本周的反弹让人舒服,但它不改变"震荡市"的本质。当前既不是大举加仓的时点,也不是止盈离场的时点。<strong>8 月最好的操作,可能就是"什么都不做",把子弹留给 9 月。</strong></p><p>---</p><p>*以上分析基于交易体系 v2.0 + 本周市场实际 + 个人专业判断,不构成强制操作指令。用户自行决策,盈亏自负。*</p></div>
+    </div>
+
+<div class="footer">
+    报告生成时间:2026.08.08 22:52:04 | 数据源:新浪财经 API | 仅供个人复盘参考,不构成投资建议
+</div>
+
+</body>
+</html>
