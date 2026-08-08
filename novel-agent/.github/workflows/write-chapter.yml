@@ -1,0 +1,57 @@
+name: 写网文章节
+
+on:
+  # 1. 手动触发（带参数）
+  workflow_dispatch:
+    inputs:
+      chapter:
+        description: '章节号'
+        required: true
+        type: string
+        default: '1'
+      plot:
+        description: '剧情要点'
+        required: true
+        type: string
+        default: '主角林凡是个普通大学生，意外获得金手指，震惊全班'
+  # 2. 大纲文件改了自动触发
+  push:
+    paths:
+      - 'outlines/**'
+      - 'novel_writer_gh.py'
+
+jobs:
+  write:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 写章节
+        env:
+          MOONSHOT_API_KEY: ${{ secrets.MOONSHOT_API_KEY }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+        run: |
+          python novel_writer_gh.py \
+            --chapter ${{ github.event.inputs.chapter || 1 }} \
+            --plot "${{ github.event.inputs.plot || '主角林凡是个普通大学生，意外获得金手指，震惊全班' }}" \
+            --out-dir chapters
+
+      - name: 提交章节回仓
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add chapters/
+          if git diff --staged --quiet; then
+            echo "无变更"
+          else
+            git commit -m "chore: 第 ${{ github.event.inputs.chapter || 1 }} 章"
+            git push
+          fi
