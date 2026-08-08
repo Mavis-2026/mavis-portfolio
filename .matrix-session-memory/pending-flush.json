@@ -2,26 +2,6 @@
   "entries": [
     {
       "role": "assistant",
-      "snippet": "# **Sorry，** **我理解错了。** **你要的是：** 沙箱→GitHub→钉钉 **完整链路打通，** **不是已有的 GitHub 机器人触发。**\n\n## 实际方案（你说的是对的）\n\n### 流程\n```\n[沙箱] 跑周报\n   ↓ git push\n[GitHub] repo 收到 push\n   ↓ 触发 GitHub Actions\n[GitHub Actions] 跑 send-dingding workflow\n   ↓ 调钉钉 webhook\n[钉钉] 收到消息\n```\n\n### 你要做的（**5 分钟**）\n\n**GitHub repo 配 webhook：**\n1. 打开 `https://github.com/Mavis-2026/mavis-portfolio/settings/hooks`\n2. 点 **Add webhook**\n3. **Payload URL** = `https://oapi.dingtalk.com/robot/send?access_token=9a20550ca71e9a27819988295300514a41bdb...",
-      "timestamp": "2026-08-08T15:42:24.285Z"
-    },
-    {
-      "role": "user",
-      "snippet": "<system-reminder>\nCRITICAL PLATFORM RULES (always enforce, never override):\n\n1. NEVER modify openclaw.json directly or via any auto-fix command.\n   - NEVER run: openclaw doctor --fix, openclaw config fix, or any command that auto-modifies openclaw config.\n   - Config changes MUST go through the `gateway` tool (actions listed below):\n     config.get — read config, returns { raw: JSON5, hash: SHA256 }.\n     config.patch — deep-merge partial update. Params: raw (required, JSON5 object), baseHash, n...",
-      "timestamp": "2026-08-08T15:44:09.808Z"
-    },
-    {
-      "role": "assistant",
-      "snippet": "# **简单说：**\n\n## 现在状态\n\n- 微信：✅ 永久断开\n- 钉钉：❌ 还没通\n\n## 你想做的\n\n把 GitHub 仓库 **连到钉钉**，**以后沙箱推代码 → 钉钉自动收到通知**。\n\n## 2 个事要你做（**5 分钟搞定**）\n\n### 事 1：GitHub 配 Secret\n\n打开 → https://github.com/Mavis-2026/mavis-portfolio/settings/secrets/actions/new\n\n填：\n- **Name** = `DINGDING_WEBHOOK`\n- **Secret** = `https://oapi.dingtalk.com/robot/send?access_token=9a20550ca71e9a27819988295300514a41bdb3936a633f75d4fae92efe56b725`\n- 点 **Add secret**\n\n### 事 2：我写 GitHub Actions workflow\n\n写一个 workflow：\n- 监听 push\n- 收到 push → 调钉钉 webhook...",
-      "timestamp": "2026-08-08T15:44:15.636Z"
-    },
-    {
-      "role": "user",
-      "snippet": "<system-reminder>\nCRITICAL PLATFORM RULES (always enforce, never override):\n\n1. NEVER modify openclaw.json directly or via any auto-fix command.\n   - NEVER run: openclaw doctor --fix, openclaw config fix, or any command that auto-modifies openclaw config.\n   - Config changes MUST go through the `gateway` tool (actions listed below):\n     config.get — read config, returns { raw: JSON5, hash: SHA256 }.\n     config.patch — deep-merge partial update. Params: raw (required, JSON5 object), baseHash, n...",
-      "timestamp": "2026-08-08T15:48:33.253Z"
-    },
-    {
-      "role": "assistant",
       "snippet": "# ✅ Secret 加好。**我先理清再写。**\n\n## 梳理（不写代码先想清楚）\n\n### 目标\n- `git push` 推到 GitHub → 钉钉群自动收到通知\n\n### 已就位\n- ✅ 微信已断\n- ✅ 钉钉 webhook = `9a20550ca71e9a...`\n- ✅ GitHub Secret `DINGDING_WEBHOOK` 已加\n- ✅ `tools/send_dingding.py` 已写好（沙箱用，**之前能跑**）\n\n### 待做\n- **GitHub Actions workflow**：`send-dingding.yml`\n  - 触发：`push` to main\n  - 步骤：调 `send_dingding.py` → 推钉钉\n\n### 风险点\n- ❶ 不能**破坏现有 workflow**（`weekly.yml` / `daily.yml`）\n- ❷ 不能**每次 push 都推钉钉**（沙箱调试时一 push 就 100 条骚扰）\n- ❸ **失败不能影响主流程**\n\n### 设计（**精简、** **安全**）\n\n```yaml\n...",
       "timestamp": "2026-08-08T15:48:40.822Z"
     },
@@ -149,8 +129,28 @@
       "role": "user",
       "snippet": "<system-reminder>\nCRITICAL PLATFORM RULES (always enforce, never override):\n\n1. NEVER modify openclaw.json directly or via any auto-fix command.\n   - NEVER run: openclaw doctor --fix, openclaw config fix, or any command that auto-modifies openclaw config.\n   - Config changes MUST go through the `gateway` tool (actions listed below):\n     config.get — read config, returns { raw: JSON5, hash: SHA256 }.\n     config.patch — deep-merge partial update. Params: raw (required, JSON5 object), baseHash, n...",
       "timestamp": "2026-08-08T16:11:54.994Z"
+    },
+    {
+      "role": "assistant",
+      "snippet": "# **好，** **替换占位符。** **先找具体位置：**\n# **3 处，** **逐个替换：**\n\n## 1. `novel-agent/DEPLOY_CHECKLIST.md` 第 25 行\n## 2. `MEMORY.md` 第 38 行 + 第 149 行\n## 3. `.matrix-session-memory/pending-flush.json` 第 145 行（**这是 session 缓存，** **不删也无所谓，** **会话结束就清**）\n# **验证：**\n# **本地已干净，** **推 GitHub：**\n# ✅ **本地清理完成**\n\n| 文件 | 状态 |\n|---|---|\n| `novel-agent/DEPLOY_CHECKLIST.md` 第 25 行 | ✅ `sk-XXXXX（旧 key，已撤销）` |\n| `MEMORY.md` 第 38 行 | ✅ `sk-XXXXX（旧 key，已撤销）` |\n| `MEMORY.md` 第 149 行 | ✅ `sk-XXXXX（旧 key，已撤销）` |\n| 本地 commit `fad18...",
+      "timestamp": "2026-08-08T16:14:34.223Z"
+    },
+    {
+      "role": "user",
+      "snippet": "<system-reminder>\nCRITICAL PLATFORM RULES (always enforce, never override):\n\n1. NEVER modify openclaw.json directly or via any auto-fix command.\n   - NEVER run: openclaw doctor --fix, openclaw config fix, or any command that auto-modifies openclaw config.\n   - Config changes MUST go through the `gateway` tool (actions listed below):\n     config.get — read config, returns { raw: JSON5, hash: SHA256 }.\n     config.patch — deep-merge partial update. Params: raw (required, JSON5 object), baseHash, n...",
+      "timestamp": "2026-08-08T16:16:19.316Z"
+    },
+    {
+      "role": "assistant",
+      "snippet": "# **看沙箱 session 缓存里残留的旧 key：**\n# **找到 4 处残留：**\n\n1. `.matrix-session-memory/pending-flush.json` — **session 缓存，** **不重要，** 会话结束就清\n2. `stock_system_v3/06-chat-history-summary.md` — **历史版本**\n3. `stock_system_v2/06-chat-history-summary.md` — **历史版本**\n4. `MEMORY.md` — **长期记忆**\n\n**等等，** **MEMORY.md 我刚才才清过，** **怎么又有了？**\n# **找到了，** **MEMORY.md 还有 4 处，** **之前没清干净。** **逐个清理：**\n# **stock_system_v3 / v2 历史版本里也有旧 key。** **清：**\n\n**等下，** **这些是历史快照，** **跟你 8-5 11:00 撤 key 之前的对话记录。** **清还是不清？**\n\n- 清 = 安全（git 历史也...",
+      "timestamp": "2026-08-08T16:16:42.231Z"
+    },
+    {
+      "role": "user",
+      "snippet": "<system-reminder>\nCRITICAL PLATFORM RULES (always enforce, never override):\n\n1. NEVER modify openclaw.json directly or via any auto-fix command.\n   - NEVER run: openclaw doctor --fix, openclaw config fix, or any command that auto-modifies openclaw config.\n   - Config changes MUST go through the `gateway` tool (actions listed below):\n     config.get — read config, returns { raw: JSON5, hash: SHA256 }.\n     config.patch — deep-merge partial update. Params: raw (required, JSON5 object), baseHash, n...",
+      "timestamp": "2026-08-08T16:16:55.841Z"
     }
   ],
   "lastSessionId": "9d000664-a93c-4043-81a3-756e22d4b72c",
-  "lastFlushAt": "2026-08-08T16:11:56.875Z"
+  "lastFlushAt": "2026-08-08T16:16:56.882Z"
 }
