@@ -35,19 +35,38 @@ def get_sign(secret: str) -> tuple:
     return timestamp, sign
 
 
+def _is_github_robot(webhook: str) -> bool:
+    """识别 GitHub 机器人（钉钉 GitHub 机器人 token 长度 64）"""
+    if "access_token=" in webhook:
+        token = webhook.split("access_token=")[1].split("&")[0]
+        # GitHub 机器人 token 长度 64，普通机器人 32
+        return len(token) > 50
+    return False
+
+
 def send_text(webhook: str, secret: str | None, content: str) -> dict:
-    """发送文本消息到钉钉"""
+    """发送消息到钉钉（自动识别 GitHub 机器人 vs 普通机器人）"""
     if secret:
         timestamp, sign = get_sign(secret)
         url = f"{webhook}&timestamp={timestamp}&sign={sign}"
     else:
         url = webhook
 
-    payload = {
-        "msgtype": "text",
-        "text": {"content": content},
-        "at": {"atMobiles": [], "isAtAll": False},
-    }
+    # GitHub 机器人不支持 text msgtype，用 markdown
+    if _is_github_robot(webhook):
+        payload = {
+            "msgtype": "markdown",
+            "markdown": {
+                "title": content.split("\n")[0][:20],
+                "text": content,
+            },
+        }
+    else:
+        payload = {
+            "msgtype": "text",
+            "text": {"content": content},
+            "at": {"atMobiles": [], "isAtAll": False},
+        }
 
     req = urllib.request.Request(
         url,
@@ -59,21 +78,26 @@ def send_text(webhook: str, secret: str | None, content: str) -> dict:
 
 
 def build_text(report_type: str, mode: str, reason: str = "") -> str:
-    """构造消息文本"""
+    """构造消息文本（GitHub 机器人专用，消息带仓库路径）"""
     today = now_cst().strftime("%Y-%m-%d")
     repo = os.environ.get("GITHUB_REPOSITORY", "Mavis-2026/mavis-portfolio")
 
     if mode == "fail":
         label = "周复盘" if report_type == "weekly" else "日复盘"
-        return f"❌ {label}失败 {today}\n原因: {reason or '未知'}"
+        return (
+            f"❌ {label}失败 {today}\n"
+            f"仓库: {repo}\n"
+            f"原因: {reason or '未知'}"
+        )
 
-    # success 模式
+    # success 模式（GitHub 机器人必须带仓库路径才会推送）
     base = f"https://{repo.split('/')[0]}.github.io/{repo.split('/')[1]}/reports"
     if report_type == "weekly":
         main_url = f"{base}/weekly-review-{today}-main.html"
         sub_url = f"{base}/weekly-review-{today}-sub2.html"
         return (
-            f"✅ 周复盘报告 {today} 已生成\n\n"
+            f"✅ 周复盘 {today}\n\n"
+            f"仓库: {repo}\n"
             f"主账户: {main_url}\n"
             f"副账户: {sub_url}"
         )
@@ -81,7 +105,8 @@ def build_text(report_type: str, mode: str, reason: str = "") -> str:
         main_url = f"{base}/review-{today}-main.html"
         sub_url = f"{base}/review-{today}-sub2.html"
         return (
-            f"✅ 日复盘报告 {today} 已生成\n\n"
+            f"✅ 日复盘 {today}\n\n"
+            f"仓库: {repo}\n"
             f"主账户: {main_url}\n"
             f"副账户: {sub_url}"
         )

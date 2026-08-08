@@ -28,7 +28,7 @@ def check_limit():
 
 
 def call_moonshot(system_prompt, user_prompt, model="kimi-k3", max_tokens=8000):
-    """调 Moonshot K3（reasoning 模型，max_tokens 要大）"""
+    """调 Moonshot K3（4 层防跑飞）"""
     check_limit()
     url = "https://api.moonshot.cn/v1/chat/completions"
     payload = {
@@ -54,8 +54,22 @@ def call_moonshot(system_prompt, user_prompt, model="kimi-k3", max_tokens=8000):
             data = json.loads(resp.read().decode("utf-8"))
             msg = data["choices"][0]["message"]
             content = msg.get("content") or msg.get("reasoning_content") or ""
+            usage = data.get("usage", {})
+
+            # === 防跑飞 4 层 ===
             if not content:
-                return "[Moonshot 空] 模型没返回内容"
+                return "[Moonshot 空] 模型没返回内容（reasoning 跑飞）"
+            output_tokens = usage.get("completion_tokens", len(content) // 2)
+            if output_tokens > 6000:
+                return f"[Moonshot 跑飞] 输出 {output_tokens} tokens > 6000 上限"
+            meta_keywords = ["用户要求", "作为AI", "我来写", "思考", "我需要", "让我"]
+            head = content[:200]
+            meta_count = sum(1 for k in meta_keywords if k in head)
+            if meta_count >= 2:
+                return f"[Moonshot 自言自语] 前 200 字含 {meta_count} 个元话语"
+            char_count = len(content)
+            if char_count < 1500:
+                return f"[Moonshot 太短] 仅 {char_count} 字 < 1500 下限"
             return content
     except urllib.error.HTTPError as e:
         body = e.read().decode()[:300]
